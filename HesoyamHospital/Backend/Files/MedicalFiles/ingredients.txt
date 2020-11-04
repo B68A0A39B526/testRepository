@@ -1,0 +1,6 @@
+﻿1,Koka
+2,Amphetamine
+3,Lavanda
+4,Koka
+5,Amphetamine
+6,Lavanda
