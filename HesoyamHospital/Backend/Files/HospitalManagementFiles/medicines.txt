@@ -1,0 +1,2 @@
+﻿1,Oljaprofen,10000,PILL,False,1,,5,7
+2,Zetaprofen,1200,PILL,False,1,,5,7

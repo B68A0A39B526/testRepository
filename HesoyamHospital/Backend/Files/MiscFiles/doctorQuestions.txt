@@ -1,0 +1,4 @@
+﻿1~Prvo doktor pitanje
+2~Drugo doktor pitanje
+3~Treće doktor pitanje
+4~Četvrto doktor pitanje
