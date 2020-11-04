@@ -23,6 +23,7 @@ namespace GraphicEditor
         public MainWindow()
         {
             InitializeComponent();
+            perica
         }
     }
 }
