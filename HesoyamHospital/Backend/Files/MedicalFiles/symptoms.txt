@@ -1,0 +1,8 @@
+﻿1,Bol u vratu,Jak bol u prednjem delu vrata
+2,bol u uvetu,Jak bol u srednjem uvetu
+3,Simptom 1,Opis 1 simptoma
+4,Simptom 2,Opis 2 simptoma
+5,Simptom 3,Opis 3 simptoma
+6,Simptom 1,Opis 1 simptoma
+7,Simptom 2,Opis 2 simptoma
+8,Simptom 3,Opis 3 simptoma

@@ -1,0 +1,2 @@
+﻿1,Hashimoto's disease,Bolest stitne zlezde,True,False;True;teska boles',1;2,1;2
+2,Tumor,Bolest glave,True,False;True;teska boles',1;2,

@@ -1,0 +1,6 @@
+﻿1,TEST ALLERGY,1,
+2,Alergija 2,2,3;4
+3,Alergija 3,3,3;4;5
+4,TEST ALLERGY,4,
+5,Alergija 2,5,6;7
+6,Alergija 3,6,6;7;8

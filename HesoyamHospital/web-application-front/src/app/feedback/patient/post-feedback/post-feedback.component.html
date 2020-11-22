@@ -1,0 +1,35 @@
+<div style="height:100%; display: flex; justify-content: center;">
+    <mat-card class="mat-elevation-z8" style="margin-top: 10%; width: 60%; height: 60%; display: flex; justify-content: center; align-items: center; height: max-content; padding-top: 20px;">
+            <form #feedform="ngForm" style="width: 80%;" (ngSubmit)="submit()" novalidate>
+
+                <h2 style="text-align: center;">
+                    Share your feedback
+                </h2>
+    
+                <div class="center">
+                  <mat-form-field style="width:100%;">
+                      <mat-label>Your comment (1-500 characters) </mat-label>
+                      <textarea #name = "ngModel" pattern = "^.{1,500}$" name="c" matInput required cdkTextareaAutosize [(ngModel)] = "feedbackDTO.Comment" placeholder="Podelite svoje utiske" style="height: 40%;"></textarea>
+                  </mat-form-field>
+                </div>
+      
+                <div style="display: grid; grid-row-gap: 50px;">
+                  <label class="item1">Do you want your name to be displayed next to your comment?</label>
+                  <mat-radio-group #ano = "ngModel" name="a" class="item2" [(ngModel)] = "_anonymous">
+                      <mat-radio-button [(checked)] = "!feedbackDTO.Anonymous" value="0">Yes</mat-radio-button>
+                      <mat-radio-button [(checked)] = "feedbackDTO.Anonymous"  value="1">No</mat-radio-button>
+                  </mat-radio-group>
+                  <label class="item3">Do you want your feedback to be visible to all website visitors?</label>
+                  <mat-radio-group #vis = "ngModel" name="v" class="item4" style="float: right;" [(ngModel)] = "_public">
+                      <mat-radio-button value="0">Yes</mat-radio-button>
+                      <mat-radio-button value="1">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+      
+                <div style="text-align: center; margin-top: 50px;">
+                  <button [disabled] ="name.invalid || ano.pristine || vis.pristine" mat-raised-button color="primary" type="submit" style="padding: 12px 32px">Submit</button>
+                </div>
+      
+            </form>
+    </mat-card>
+</div>
