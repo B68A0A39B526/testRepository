@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.PatientModel
 {
-    public class TestClass
+    public class perica
     {
         private long _id;
         public long Id { get => _id; set => _id = value; }
@@ -45,7 +45,7 @@ namespace Backend.Model.PatientModel
 
 
 
-        public TestClass()
+        public perica()
         {
             int pera = 50;
             while( (pera--) != 0)
