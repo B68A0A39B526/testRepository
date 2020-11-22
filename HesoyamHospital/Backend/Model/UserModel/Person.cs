@@ -49,7 +49,7 @@ namespace Backend.Model.UserModel
         {
             get
             {
-                if (_middleName.Equals(""))
+                if (_middleName != null && _middleName.Equals(""))
                     return _name + " " + _surname;
                 else
                     return _name + " " + _middleName + " " + _surname;

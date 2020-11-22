@@ -3,13 +3,11 @@
 // Created: 6. maj 2020 18:46:57
 // Purpose: Definition of Class FeedbackService
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Backend.Exceptions;
 using Backend.Model.UserModel;
-using Backend.Repository.Abstract.MiscAbstractRepository;
 using Backend.Repository.MySQLRepository.MiscRepository;
+using Backend.Repository.MySQLRepository.UsersRepository;
 
 namespace Backend.Service.MiscService
 {
@@ -17,16 +15,19 @@ namespace Backend.Service.MiscService
     {
         private FeedbackRepository _feedbackRepository;
         private QuestionRepository _questionRepository;
+        private UserRepository _userRepository;
 
-        public FeedbackService(FeedbackRepository feedbackRepository, QuestionRepository questionRepository)
+        public FeedbackService(FeedbackRepository feedbackRepository, QuestionRepository questionRepository, UserRepository userRepository)
         {
             _feedbackRepository = feedbackRepository;
             _questionRepository = questionRepository;
+            _userRepository = userRepository;
         }
 
         public Feedback Create(Feedback entity)
         {
             Validate(entity);
+
             return _feedbackRepository.Create(entity);
         }
 
@@ -51,17 +52,53 @@ namespace Backend.Service.MiscService
             _feedbackRepository.Update(entity);
         }
 
-        public void Validate(Feedback entity)
+        public void Publish(long id)
         {
-            if (entity.User == null)
+            Feedback feedback = _feedbackRepository.GetEager(id);
+            if (feedback == null) return;
+            
+            feedback.Published = true;
+            _feedbackRepository.Update(feedback);
+        }
+
+        public List<Feedback> GetAllUnpublished()
+        {
+            List<Feedback> result = new List<Feedback>();
+            List<Feedback> feedbacks = _feedbackRepository.GetAllEager().ToList();
+
+            foreach (Feedback feedback in feedbacks)
             {
-                throw new FeedbackServiceException("User is null!");
+                feedback.User = _userRepository.GetByID(feedback.UserId);
+
+                if (!feedback.Published)
+                {
+                    result.Add(feedback);
+                }
             }
 
-            if (entity.Rating == null)
+            return result;
+        }
+
+        public List<Feedback> GetAllPublished()
+        {
+            List<Feedback> result = new List<Feedback>();
+            List<Feedback> feedbacks = _feedbackRepository.GetAllEager().ToList();
+
+            foreach (Feedback feedback in feedbacks)
             {
-                throw new FeedbackServiceException("Feedback is empty!");
+                feedback.User = _userRepository.GetByID(feedback.UserId);
+
+                if (feedback.Published)
+                {
+                    result.Add(feedback);
+                }
             }
+
+            return result;
+        }
+
+        public void Validate(Feedback entity)
+        {
         }
     }
 }

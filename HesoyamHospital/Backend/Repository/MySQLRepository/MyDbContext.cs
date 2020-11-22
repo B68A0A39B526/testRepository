@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Backend.Model.ManagerModel;
 using Backend.Model.PatientModel;
+using Backend.Model.PharmacyModel;
 using Backend.Model.UserModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,9 @@ namespace Backend.Repository.MySQLRepository
         }
 
         public DbSet<Hospital> Hospitals { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<PharmacyApiKey> PharmacyApiKeys { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,0 +1,17 @@
+#text{
+    font-size: 20px;
+}
+#name{
+    font-size: 16px;
+    text-align: right;
+    padding: 10px;
+}
+mat-card { 
+    margin: 15px;
+    background-color: rgb(202, 137, 140);
+    color: white;
+}
+.content{
+    display: flex;
+  justify-content: center;
+}

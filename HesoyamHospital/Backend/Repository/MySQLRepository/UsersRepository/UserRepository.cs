@@ -9,6 +9,7 @@ using Backend.Repository.MySQLRepository.MySQL;
 using Backend.Repository.MySQLRepository.MySQL.IdGenerator;
 using Backend.Repository.MySQLRepository.MySQL.Stream;
 using Backend.Repository.Sequencer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 

@@ -1,0 +1,14 @@
+<div class="content" fxLayout="row wrap">
+  <div fxFlex="30%" *ngFor ="let f of feedback">
+<mat-card >
+  <mat-card-content>
+    <p id = "text">
+      {{f.comment}}
+    </p>
+  </mat-card-content>
+  <mat-card-footer>
+    <p id = "name">{{f.userName}}</p>
+  </mat-card-footer>
+</mat-card>
+</div>
+</div>

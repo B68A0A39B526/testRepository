@@ -4,6 +4,7 @@ using Backend.Repository.MySQLRepository.MySQL.IdGenerator;
 using Backend.Repository.MySQLRepository.MySQL.Stream;
 using Backend.Repository.Sequencer;
 using Backend.Specifications;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,8 +73,7 @@ namespace Backend.Repository.MySQLRepository.MySQL
         {
             try
             {
-                return _stream
-                    .ReadAll()
+                return _stream.ReadAll()
                     .SingleOrDefault(entity => entity.GetId().CompareTo(id) == 0);
             }
             catch (ArgumentException)
@@ -89,9 +89,8 @@ namespace Backend.Repository.MySQLRepository.MySQL
         {
             try
             {
-                var entities = _stream.ReadAll().ToList();
-                entities[entities.FindIndex(ent => ent.GetId().CompareTo(entity.GetId()) == 0)] = entity;
-                _stream.SaveAll();
+                if (GetAll().FirstOrDefault(e => e.GetId().CompareTo(entity.GetId()) == 0) != null)
+                    _stream.Update(entity);
             }
             catch (ArgumentException)
             {
