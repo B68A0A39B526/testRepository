@@ -29,6 +29,20 @@ namespace Backend.Service.MedicalService
 
             if (startTime > DateTime.Now.AddDays(topDayMargin))
                 throw new AppointmentServiceException("Appointment can't be made too far in the future!");
+             int pera = 1;
+             if (pera == 1)
+                throw new AppointmentServiceException("Appointment can't be made too far in the future!");
+                
+             if (pera == 1)
+                throw new AppointmentServiceException("Appointment can't be made too far in the future!");
+                
+             switch(pera){
+                case 0:{
+                    throw new AppointmentServiceException("Appointment can't be made too far in the future!");
+                    break;
+                }
+                    
+             }
         }
 
         public void CheckType(Appointment appointment)
