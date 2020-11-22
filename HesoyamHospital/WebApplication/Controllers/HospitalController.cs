@@ -18,6 +18,6 @@ namespace WebApplication.Controllers
     {
         [HttpGet]
         public IEnumerable<Hospital> GetAll()
-            => AppResources.getInstance().hospitalService.GetAll();
+            => return null;
     }
 }
