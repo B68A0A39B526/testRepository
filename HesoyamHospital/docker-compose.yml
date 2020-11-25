@@ -51,7 +51,7 @@ services:
   IntegrationAdapterTests:
     build:
       context: . 
-      dockerfile: IntegrationAdapterTestsDockerfile
+      dockerfile: IntegrationAdapterTests/Dockerfile
     image: gregvader/integrationadaptertests:latest
     depends_on:
       - IntegrationAdapter
