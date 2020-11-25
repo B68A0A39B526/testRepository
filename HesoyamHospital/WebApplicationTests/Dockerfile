@@ -2,15 +2,15 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS web-build
 
 WORKDIR /app/WebApplication
 
-COPY ./WebApplication/*.csproj .
+COPY ./WebApplication/WebApplication.csproj .
 
 WORKDIR /app/Backend
 
-COPY ./Backend/*.csproj .
+COPY ./Backend/Backend.csproj .
 
 WORKDIR /app/WebApplicationTests
 
-COPY ./WebApplicationTests/*.csproj .
+COPY ./WebApplicationTests/WebApplicationTests.csproj .
 
 WORKDIR /app/WebApplicationTests
 
