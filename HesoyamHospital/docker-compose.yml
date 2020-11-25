@@ -8,7 +8,7 @@ services:
     build: 
       context: ./Backend
       dockerfile: Dockerfile
-    image: backend:latest
+    image: gregvader/backend:latest
     volumes:
       - mysql_data:/var/lib/mysql/data
     expose: 
@@ -20,7 +20,7 @@ services:
     build: 
       context: ./IntegrationAdapter
       dockerfile: Dockerfile
-    image: integrationadapter:latest
+    image: gregvader/integrationadapter:latest
     #depends-on: 
     #  - Backend
     expose: 
@@ -32,7 +32,7 @@ services:
     build: 
       context: ./WebApplication
       dockerfile: Dockerfile
-    image: webapplication:latest
+    image: gregvader/webapplication:latest
     #depends-on: 
     #  - Backend
     expose: 
@@ -44,13 +44,13 @@ services:
     build:
       context: ./web-application-front 
       dockerfile: Dockerfile
-    image: webapplication:latest
+    image: gregvader/webapplication:latest
 
   IntegrationAdapterTests:
     build:
       context: ./IntegrationAdapterTests 
       dockerfile: Dockerfile
-    image: integrationadaptertests:latest
+    image: gregvader/integrationadaptertests:latest
     expose: 
       - "80"
     ports: 
@@ -60,6 +60,7 @@ services:
     build:
       context: ./WebApplicationTests 
       dockerfile: Dockerfile
+      image: gregvader/webapplicationtests:latest
     image: webapplicationtests:latest
     expose: 
       - "80"
