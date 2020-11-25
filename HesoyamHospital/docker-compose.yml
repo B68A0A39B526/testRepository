@@ -60,8 +60,7 @@ services:
     build:
       context: ./WebApplicationTests 
       dockerfile: Dockerfile
-      image: gregvader/webapplicationtests:latest
-    image: webapplicationtests:latest
+    image: gregvader/webapplicationtests:latest
     expose: 
       - "80"
     ports: 
