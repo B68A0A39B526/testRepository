@@ -36,4 +36,4 @@ EXPOSE 80
 
 #USER john
 
-ENTRYPOINT ["dotnet", "Backend.dll"]
+ENTRYPOINT ["dotnet", "WebApplication.dll"]
