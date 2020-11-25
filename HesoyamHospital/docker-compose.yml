@@ -1,0 +1,68 @@
+version: "3.8"
+
+volumes:
+  mysql_data: {}
+
+services:
+  Backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    image: backend:latest
+    volumes:
+      - mysql_data:/var/lib/mysql/data
+    expose: 
+      - "80"
+    ports:
+      - "5100:80"
+
+  IntegrationAdapter:
+    build: 
+      context: ./IntegrationAdapter
+      dockerfile: Dockerfile
+    image: integrationadapter:latest
+    #depends-on: 
+    #  - Backend
+    expose: 
+      - "80"
+    ports:
+      - "5101:80"
+
+  WebApplication:
+    build: 
+      context: ./WebApplication
+      dockerfile: Dockerfile
+    image: webapplication:latest
+    #depends-on: 
+    #  - Backend
+    expose: 
+      - "80"
+    ports:
+      - "5102:80"
+
+  WebApplicationFront:
+    build:
+      context: ./web-application-front 
+      dockerfile: Dockerfile
+    image: webapplication:latest
+
+  IntegrationAdapterTests:
+    build:
+      context: ./IntegrationAdapterTests 
+      dockerfile: Dockerfile
+    image: integrationadaptertests:latest
+    expose: 
+      - "80"
+    ports: 
+      - "5103:80"
+
+  WebApplicationTests:
+    build:
+      context: ./WebApplicationTests 
+      dockerfile: Dockerfile
+    image: webapplicationtests:latest
+    expose: 
+      - "80"
+    ports: 
+      - "5104:80"
+
