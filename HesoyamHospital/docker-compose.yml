@@ -7,7 +7,7 @@ services:
   Backend:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Backend/Dockerfile
     image: gregvader/backend:latest
     volumes:
       - mysql_data:/var/lib/mysql/data
@@ -19,7 +19,7 @@ services:
   IntegrationAdapter:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: IntegrationAdapter/Dockerfile
     image: gregvader/integrationadapter:latest
     depends_on: 
       - Backend
@@ -31,7 +31,7 @@ services:
   WebApplication:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: WebApplication/Dockerfile
     image: gregvader/webapplication:latest
     depends_on:
       - Backend
