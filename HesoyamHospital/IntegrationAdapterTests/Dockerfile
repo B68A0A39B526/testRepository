@@ -2,15 +2,15 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS integration-build
 
 WORKDIR /app/IntegrationAdapter
 
-COPY ./IntegrationAdapter/*.csproj .
+COPY ./IntegrationAdapter/IntegrationAdapter.csproj .
 
 WORKDIR /app/IntegrationAdapterTests
 
-COPY ./IntegrationAdapterTests/*.csproj .
+COPY ./IntegrationAdapterTests/IntegrationAdapterTests.csproj .
 
 WORKDIR /app/Backend
 
-COPY ./Backend/*.csproj .
+COPY ./Backend/Backend.csproj .
 
 WORKDIR /app/IntegrationAdapterTests
 
