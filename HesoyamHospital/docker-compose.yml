@@ -6,7 +6,7 @@ volumes:
 services:
   Backend:
     build: 
-      context: ./Backend
+      context: .
       dockerfile: Dockerfile
     image: gregvader/backend:latest
     volumes:
@@ -18,7 +18,7 @@ services:
 
   IntegrationAdapter:
     build: 
-      context: ./IntegrationAdapter
+      context: .
       dockerfile: Dockerfile
     image: gregvader/integrationadapter:latest
     depends_on: 
@@ -30,7 +30,7 @@ services:
 
   WebApplication:
     build: 
-      context: ./WebApplication
+      context: .
       dockerfile: Dockerfile
     image: gregvader/webapplication:latest
     depends_on:
