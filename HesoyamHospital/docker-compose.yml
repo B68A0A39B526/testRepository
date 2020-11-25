@@ -36,9 +36,9 @@ services:
     depends_on:
       - Backend
     expose: 
-      - "80"
+      - "5000"
     ports:
-      - "5102:80"
+      - "5000"
 
   WebApplicationFront:
     build:
