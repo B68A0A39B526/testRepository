@@ -2,11 +2,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build-env
 
 WORKDIR /app
 
-COPY Backend.csproj .
+COPY ./Backend/Backend.csproj .
 
 RUN dotnet restore Backend.csproj
 
-COPY . .
+COPY ./Backend/. .
 
 RUN dotnet publish Backend.csproj -c Release -o out
 
