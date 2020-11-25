@@ -42,16 +42,16 @@ services:
 
   WebApplicationFront:
     build:
-      context: ./web-application-front 
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: web-application-front/Dockerfile
     image: gregvader/webapplication:latest
     depends_on:
       - WebApplicationTests
 
   IntegrationAdapterTests:
     build:
-      context: ./IntegrationAdapterTests 
-      dockerfile: Dockerfile
+      context: . 
+      dockerfile: IntegrationAdapterTestsDockerfile
     image: gregvader/integrationadaptertests:latest
     depends_on:
       - IntegrationAdapter
@@ -62,8 +62,8 @@ services:
 
   WebApplicationTests:
     build:
-      context: ./WebApplicationTests 
-      dockerfile: Dockerfile
+      context: . 
+      dockerfile: WebApplicationTests/Dockerfile
     image: gregvader/webapplicationtests:latest
     depends_on:
       - WebApplication
