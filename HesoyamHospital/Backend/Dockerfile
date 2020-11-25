@@ -2,18 +2,18 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build-env
 
 WORKDIR /app
 
-COPY Backend/*.csproj ./
+COPY Backend.csproj .
 
 RUN dotnet restore Backend.csproj
 
-COPY Backend/. .
+COPY . .
 
 RUN dotnet publish Backend.csproj -c Release -o out
 
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.5
 
-WORKDIR /home/app
+WORKDIR /app
 
 COPY --from=build-env /app/out .
 
