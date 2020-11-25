@@ -1,17 +1,21 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS web-build
 
-WORKDIR /app
+WORKDIR /app/WebApplication
 
-COPY WebApplication/*.csproj WebApplication/
+COPY WebApplication.csproj .
 
-COPY Backend/*.csproj Backend/
+WORKDIR /app/Backend
+
+COPY ../Backend/Backend.csproj .
 
 WORKDIR /app/WebApplication
 
 RUN dotnet restore WebApplication.csproj
 
-WORKDIR /app
+WORKDIR /app/WebApplication
 
-COPY WebApplication/. /WebApplication
+COPY . .
 
-COPY Backend/. Backend/
+WORKDIR /app/Backend
+
+COPY ../Backend/. .
