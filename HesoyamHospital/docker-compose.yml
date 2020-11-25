@@ -45,6 +45,8 @@ services:
       context: ./web-application-front 
       dockerfile: Dockerfile
     image: gregvader/webapplication:latest
+    depends_on:
+      - WebApplicationTests
 
   IntegrationAdapterTests:
     build:
