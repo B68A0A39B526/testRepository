@@ -1,17 +1,21 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS integration-build
 
-WORKDIR /app
+WORKDIR /app/IntegrationAdapter
 
-COPY IntegrationAdapter/*.csproj IntegrationAdapter/
+COPY IntegrationAdapter.csproj .
 
-COPY Backend/*.csproj Backend/
+WORKDIR /app/Backend
+
+COPY ../Backend/Backend.csproj .
 
 WORKDIR /app/IntegrationAdapter
 
 RUN dotnet restore IntegrationAdapter.csproj
 
-WORKDIR /app
+WORKDIR /app/IntegrationAdapter
 
-COPY IntegrationAdapter/. /IntegrationAdapter
+COPY . .
 
-COPY Backend/. Backend/
+WORKDIR /app/Backend
+
+COPY ../Backend/. .
