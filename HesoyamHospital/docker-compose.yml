@@ -21,8 +21,8 @@ services:
       context: ./IntegrationAdapter
       dockerfile: Dockerfile
     image: gregvader/integrationadapter:latest
-    #depends-on: 
-    #  - Backend
+    depends_on: 
+      - Backend
     expose: 
       - "80"
     ports:
@@ -33,8 +33,8 @@ services:
       context: ./WebApplication
       dockerfile: Dockerfile
     image: gregvader/webapplication:latest
-    #depends-on: 
-    #  - Backend
+    depends_on:
+      - Backend
     expose: 
       - "80"
     ports:
@@ -51,6 +51,8 @@ services:
       context: ./IntegrationAdapterTests 
       dockerfile: Dockerfile
     image: gregvader/integrationadaptertests:latest
+    depends_on:
+      - IntegrationAdapter
     expose: 
       - "80"
     ports: 
@@ -61,6 +63,8 @@ services:
       context: ./WebApplicationTests 
       dockerfile: Dockerfile
     image: gregvader/webapplicationtests:latest
+    depends_on:
+      - WebApplication
     expose: 
       - "80"
     ports: 
