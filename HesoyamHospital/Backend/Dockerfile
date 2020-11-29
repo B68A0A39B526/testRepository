@@ -1,27 +1,14 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build-env
-
-WORKDIR /app
-
-COPY ./Backend/Backend.csproj .
-
-RUN dotnet restore Backend.csproj
-
-COPY ./Backend/. .
-
-RUN dotnet publish Backend.csproj -c Release -o out
-
-
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.5
 
 WORKDIR /app
 
-COPY --from=build-env /app/out .
+COPY ./Backend/bin/Release/netcoreapp3.1/ .
+COPY ./Backend .
 
-EXPOSE 80
+EXPOSE 5000
 
 #RUN useradd -u 1000 john
 
 #USER john
 
 ENTRYPOINT ["dotnet", "Backend.dll"]
-
