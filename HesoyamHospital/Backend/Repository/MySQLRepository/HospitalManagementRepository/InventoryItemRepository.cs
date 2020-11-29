@@ -19,13 +19,7 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
     public class InventoryItemRepository : MySQLRepository<InventoryItem, long>, IInventoryItemRepository, IEagerRepository<InventoryItem, long>
     {
         private const string ENTITY_NAME = "InventoryItem";
-        private string[] INCLUDE_PROPERTIES = { "Room"};
         public InventoryItemRepository(IMySQLStream<InventoryItem> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<InventoryItem>()) { }
-
-        public IEnumerable<InventoryItem> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-        public InventoryItem GetEager(long id)
-            => GetAllEager().ToList().SingleOrDefault(item => item.GetId() == id);
 
         public IEnumerable<InventoryItem> GetInventoryItemsForRoom(Room room)
             => GetAll().ToList().Where(item => item.Room.Equals(room));

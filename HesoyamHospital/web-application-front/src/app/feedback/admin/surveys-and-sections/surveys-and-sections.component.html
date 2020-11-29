@@ -1,0 +1,170 @@
+<h1 style="text-align: center; margin-top: 10px;"><b>Survey after appointment</b></h1>
+<div style="height:100%; display: flex; justify-content: center;">
+    <mat-card class="mat-elevation-z8" style="margin-top: 5%; width: 60%; height: 60%; display: flex; justify-content: center; align-items: center; height: max-content; padding-top: 20px;">
+            <form #surveyform="ngForm" style="width: 80%;" (ngSubmit)="submit()" novalidate>
+                <h2 style="text-align: center;">
+                    Doctor Survey
+                </h2>
+                <div style="display: grid; grid-row-gap: 50px;">
+                    <label class="item1">How would you rate doctor's proffesionalism?</label>
+                    <mat-radio-group  #q1="ngModel" name="q1" class="item2" [(ngModel)]="_AnswerOne" >
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item3">How would you rate doctor's kindness?</label>
+                    <mat-radio-group   #q2="ngModel" name="q2" class="item4"   [(ngModel)]="_AnswerTwo">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item5">How would you rate doctor's expertise?</label>
+                    <mat-radio-group #q3="ngModel"  name="q3" class="item6"   [(ngModel)]="_AnswerThree">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item7">In which measures does a doctor follows medical ethics principles?</label>
+                    <mat-radio-group  #q4="ngModel" name="q4" class="item8"  [(ngModel)]="_AnswerFour">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                
+                <mat-divider style="margin-top: 10px;"></mat-divider>
+
+                <h2 style="text-align: center; margin-top: 15px;">
+                    Staff Survey
+                </h2>   
+                <div style="display: grid; grid-row-gap: 50px;">
+                    <label class="item1">How would you rate staff's proffesionalism?</label>
+                    <mat-radio-group #q5="ngModel" name="q5" class="item2"   [(ngModel)]="_AnswerFive">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item3">How would you rate staff's kindness?</label>
+                    <mat-radio-group  #q6="ngModel" name="q6" class="item4"   [(ngModel)]="_AnswerSix">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item5">How would you rate staff's expertise?</label>
+                    <mat-radio-group #q7="ngModel" name="q7" class="item6"   [(ngModel)]="_AnswerSeven">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item7">In which measures does a staff follows medical ethics principles?</label>
+                    <mat-radio-group #q8="ngModel" name="q8" class="item8"  [(ngModel)]="_AnswerEight">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                </div> 
+
+                <mat-divider style="margin-top: 10px;"></mat-divider>
+
+                <h2 style="text-align: center;  margin-top: 15px;">
+                    Hygiene Survey
+                </h2>   
+                <div style="display: grid; grid-row-gap: 50px;">
+                    <label class="item1">How would you rate hygiene of examination room?</label>
+                    <mat-radio-group #q9="ngModel" name="q9" class="item2"  [(ngModel)]="_AnswerNine">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item3">How would you rate hospital's floor cleanliness?</label>
+                    <mat-radio-group #q10="ngModel" name="q10" class="item4"  [(ngModel)]="_AnswerTen">                    
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item5">How would you rate hospital's supply of disinfectants?</label>
+                    <mat-radio-group #q11="ngModel"  name="q11" class="item6"  [(ngModel)]="_AnswerEleven">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item7">How would you rate level of sterilization over appliances inside the hospital?</label>
+                    <mat-radio-group  #q12="ngModel" name="q12" class="item8"   [(ngModel)]="_AnswerTwelve">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                </div> 
+
+                <mat-divider style="margin-top: 10px;"></mat-divider>
+
+                <h2 style="text-align: center;  margin-top: 15px;">
+                    Equipment Survey
+                </h2>   
+                <div style="display: grid; grid-row-gap: 50px;">
+                    <label class="item1">How would you rate number of equipment in examination room?</label>
+                    <mat-radio-group #q13="ngModel" name="q13" class="item2"  [(ngModel)]="_AnswerThirteen">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item3">How would you rate equipment position inside hospital?</label>
+                    <mat-radio-group #q14="ngModel" name="q14" class="item4"   [(ngModel)]="_AnswerFourteen">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item5">How would you rate state of which equipment is in?</label>
+                    <mat-radio-group #q15="ngModel" name="q15" class="item6"     [(ngModel)]="_AnswerFifteen">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                    <label class="item7">How wolud you rate level of hosapital apparatus automatisation?</label>
+                    <mat-radio-group #q16="ngModel" name="q16" class="item8"   [(ngModel)]="_AnswerSixteen">
+                        <mat-radio-button value=0>1</mat-radio-button>
+                        <mat-radio-button value=1>2</mat-radio-button>
+                        <mat-radio-button value=2>3</mat-radio-button>
+                        <mat-radio-button value=3>4</mat-radio-button>
+                        <mat-radio-button value=4>5</mat-radio-button>
+                    </mat-radio-group>
+                </div> 
+                <div style="text-align: center; margin-top: 50px;">
+                    <button  [disabled] ="q1.pristine || q2.pristine || q3.pristine || q4.pristine || q5.pristine || q6.pristine || q7.pristine
+                     || q8.pristine || q9.pristine || q10.pristine || q11.pristine || q12.pristine || q13.pristine || q14.pristine || q15.pristine || 
+                     q16.pristine" mat-raised-button color="primary" type="submit" style="padding: 12px 32px">Submit</button>
+                  </div>
+        
+            </form>
+    </mat-card>
+</div>

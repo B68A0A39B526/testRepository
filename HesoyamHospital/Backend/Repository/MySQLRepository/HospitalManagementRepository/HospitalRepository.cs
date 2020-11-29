@@ -18,16 +18,9 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
     public class HospitalRepository : MySQLRepository<Hospital, long>, IHospitalRepository, IEagerRepository<Hospital, long>
     {
         private const string ENTITY_NAME = "Hospital";
-        private string[] INCLUDE_PROPERTIES = { "Address", "Room", "Employee" };
         public HospitalRepository(IMySQLStream<Hospital> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Hospital>()) {}
 
         public IEnumerable<Hospital> GetHospitalByLocation(Location location)
             => GetAll().ToList().Where(hospital => hospital.Address == null ? false : hospital.Address.Location.Equals(location));
-
-        public Hospital GetEager(long id)
-            => GetAllEager().ToList().SingleOrDefault(hospital => hospital.GetId() == id);
-
-        public IEnumerable<Hospital> GetAllEager()
-             => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

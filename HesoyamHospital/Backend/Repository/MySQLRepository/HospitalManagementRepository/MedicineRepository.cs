@@ -23,7 +23,6 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
     public class MedicineRepository : MySQLRepository<Medicine, long>, IMedicineRepository, IEagerRepository<Medicine, long>
     {
         private const string ENTITY_NAME = "Medicine";
-        private string[] INCLUDE_PROPERTIES = { "Ingredient", "UsedFor" };
 
         public MedicineRepository(IMySQLStream<Medicine> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Medicine>())
         {
@@ -59,11 +58,5 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
 
         public IEnumerable<Medicine> GetMedicinePendingApproval()
             => GetAll().Where(med => med.IsValid == false);
-
-        public Medicine GetEager(long id)
-            => GetAllEager().SingleOrDefault(med => med.Id == id);
-
-        public IEnumerable<Medicine> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

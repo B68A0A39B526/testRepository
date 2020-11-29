@@ -12,35 +12,14 @@ namespace Backend.Model.PatientModel
 {
     public class Disease : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private string _name;
-        public string Name { get => _name; set => _name = value; }
-
-        private string _overview;
-        public string Overview { get => _overview; set => _overview = value; }
-
-        private bool _isChronic;
-        public bool IsChronic { get => _isChronic; set => _isChronic = value; }
-
-        private long _diseaseTypeID;
-        public long DiseaseTypeID
-        {
-            get { return _diseaseTypeID; }
-            set { _diseaseTypeID = value; }
-        }
-
-        private DiseaseType _diseaseType;
-        public DiseaseType DiseaseType
-        {
-            get { return _diseaseType; }
-            set { _diseaseType = value; }
-        }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Overview { get; set; }
+        public bool IsChronic { get; set; }
+        public virtual DiseaseType DiseaseType { get; set; }
 
         private List<DiseaseMedicine> _administratedFor;
-
-        public List<DiseaseMedicine> AdministratedFor
+        public virtual List<DiseaseMedicine> AdministratedFor
         {
             get
             {
@@ -59,7 +38,7 @@ namespace Backend.Model.PatientModel
             }
         }
         private List<Symptom> _symptoms;
-        public List<Symptom> Symptoms
+        public virtual List<Symptom> Symptoms
         {
             get
             {
@@ -80,51 +59,48 @@ namespace Backend.Model.PatientModel
 
         public Disease(long id)
         {
-            _id = id;
+            Id = id;
         }
 
         public Disease(long id, string name, string overview, bool isChronic, DiseaseType diseaseType, List<Symptom> symptoms, List<DiseaseMedicine> administratedFor = null)
         {
-            _id = id;
-            _name = name;
-            _overview = overview;
-            _isChronic = isChronic;
-            _diseaseTypeID = DiseaseType.Id;
-           _diseaseType = diseaseType;
-            _symptoms = symptoms;
+            Id = id;
+            Name = name;
+            Overview = overview;
+            IsChronic = isChronic;
+            DiseaseType = diseaseType;
+            Symptoms = symptoms;
 
             if (administratedFor == null)
-                _administratedFor = new List<DiseaseMedicine>();
+                AdministratedFor = new List<DiseaseMedicine>();
             else
-                _administratedFor = administratedFor;
+                AdministratedFor = administratedFor;
         }
 
         public Disease(string name, string overview, bool isChronic, DiseaseType diseaseType,List<Symptom> symptoms,List<DiseaseMedicine> administratedFor = null)
         {
-            _name = name;
-            _overview = overview;
-            _isChronic = isChronic;
-            _diseaseTypeID = DiseaseType.Id;
-            _diseaseType = diseaseType;
-            _symptoms = symptoms;
+            Name = name;
+            Overview = overview;
+            IsChronic = isChronic;
+            DiseaseType = diseaseType;
+            Symptoms = symptoms;
 
             if (administratedFor == null)
-                _administratedFor = new List<DiseaseMedicine>();
+                AdministratedFor = new List<DiseaseMedicine>();
             else
-                _administratedFor = administratedFor;
+                AdministratedFor = administratedFor;
         }
 
         public void AddAdministratedFor(Medicine newMedicine)
         {
             if (newMedicine == null)
                 return;
-            if (_administratedFor == null)
-                _administratedFor = new List<DiseaseMedicine>();
-            bool contains = false;
-            if(_administratedFor.Find(dm => dm.Medicine.Equals(newMedicine)) == null)
+            if (AdministratedFor == null)
+                AdministratedFor = new List<DiseaseMedicine>();
+            if(AdministratedFor.Find(dm => dm.Medicine.Equals(newMedicine)) == null)
             {
                 DiseaseMedicine dm = new DiseaseMedicine(this, newMedicine);
-                _administratedFor.Add(dm);
+                AdministratedFor.Add(dm);
                 newMedicine.AddUsedFor(this);
             }
         }
@@ -137,14 +113,15 @@ namespace Backend.Model.PatientModel
         {
             if (oldMedicine == null)
                 return;
-            if (_administratedFor != null)
-                if (_administratedFor.Find(dm => dm.Medicine.Equals(oldMedicine)) == null)
+            if (AdministratedFor != null && AdministratedFor.Find(dm => dm.Medicine.Equals(oldMedicine)) == null)
+            {
+                DiseaseMedicine removeDm = AdministratedFor.Find(dm => dm.Medicine.Equals(oldMedicine));
+                if(removeDm != null)
                 {
-                    DiseaseMedicine removeDm = _administratedFor.Find(dm => dm.Medicine.Equals(oldMedicine));
-                    if(removeDm != null)
-                        _administratedFor.Remove(removeDm);
+                    AdministratedFor.Remove(removeDm);
                     oldMedicine.RemoveUsedFor(this);
                 }
+            }
         }
 
         /// <summary>
@@ -153,12 +130,12 @@ namespace Backend.Model.PatientModel
         /// <pdGenerated>Default removeAll</pdGenerated>
         public void RemoveAllAdministratedFor()
         {
-            if (_administratedFor != null)
+            if (AdministratedFor != null)
             {
                 List<Medicine> tmpAdministratedFor = new List<Medicine>();
-                foreach (DiseaseMedicine oldMedicine in _administratedFor)
+                foreach (DiseaseMedicine oldMedicine in AdministratedFor)
                     tmpAdministratedFor.Add(oldMedicine.Medicine);
-                _administratedFor.Clear();
+                AdministratedFor.Clear();
                 foreach (Medicine oldMedicine in tmpAdministratedFor)
                     oldMedicine.RemoveUsedFor(this);
                 tmpAdministratedFor.Clear();
@@ -169,10 +146,10 @@ namespace Backend.Model.PatientModel
         {
             if (newSymptom == null)
                 return;
-            if (_symptoms == null)
-                _symptoms = new List<Symptom>();
-            if (!_symptoms.Contains(newSymptom))
-                _symptoms.Add(newSymptom);
+            if (Symptoms == null)
+                Symptoms = new List<Symptom>();
+            if (!Symptoms.Contains(newSymptom))
+                Symptoms.Add(newSymptom);
         }
 
         /// <summary>
@@ -183,9 +160,8 @@ namespace Backend.Model.PatientModel
         {
             if (oldSymptom == null)
                 return;
-            if (_symptoms != null)
-                if (_symptoms.Contains(oldSymptom))
-                    _symptoms.Remove(oldSymptom);
+            if (Symptoms != null && Symptoms.Contains(oldSymptom))
+                Symptoms.Remove(oldSymptom);
         }
 
         /// <summary>
@@ -194,27 +170,27 @@ namespace Backend.Model.PatientModel
         /// <pdGenerated>Default removeAll</pdGenerated>
         public void RemoveAllSymptoms()
         {
-            if (_symptoms != null)
-                _symptoms.Clear();
+            if (Symptoms != null)
+                Symptoms.Clear();
         }
 
         public long GetId()
-            => _id;
+            => Id;
 
         public void SetId(long id)
-            => _id = id;
+            => Id = id;
 
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
 
             Disease otherDisease = obj as Disease;
-            return _id == otherDisease.GetId();
+            return Id == otherDisease.GetId();
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

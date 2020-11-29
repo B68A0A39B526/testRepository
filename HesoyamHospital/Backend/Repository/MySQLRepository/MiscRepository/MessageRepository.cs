@@ -21,7 +21,6 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
     public class MessageRepository : MySQLRepository<Message, long>, IMessageRepository, IEagerRepository<Message, long>
     {
         private const string ENTITY_NAME = "Message";
-        private string[] INCLUDE_PROPERTIES = { "Recipient", "Sender" };
 
         public MessageRepository(IMySQLStream<Message> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Message>())
         {
@@ -41,11 +40,5 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
 
         public IEnumerable<Message> GetReceived(User user)
             => GetAllEager().ToList().Where(message => IsUserIdsEqual(message.Recipient, user));
-
-        public Message GetEager(long id)
-            => GetAllEager().ToList().SingleOrDefault(message => message.GetId() == id);
-
-        public IEnumerable<Message> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

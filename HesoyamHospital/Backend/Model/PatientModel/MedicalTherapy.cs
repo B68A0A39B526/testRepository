@@ -1,54 +1,38 @@
-﻿using Backend.Model.UserModel;
-using Backend.Repository.Abstract;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Backend.Repository.Abstract;
 
 namespace Backend.Model.PatientModel
 {
     public class MedicalTherapy : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private Medicine _medicine;
-        public Medicine Medicine { get => _medicine; set { _medicine = value; _medicineId = value.Id; } }
-
-        private long _medicineId;
-        public long MedicineId { get => _medicineId; set => _medicineId = value; }
-
-        private TherapyDose _dose;
-        public TherapyDose Dose { get => _dose; set { _dose = value; _doseId = value.Id; } }
-
-        private long _doseId;
-        public long DoseId { get => _doseId; set => _doseId = value; }
+        public long Id { get; set; }
+        public virtual Medicine Medicine { get; set; }
+        public virtual TherapyDose Dose { get; set; }
 
         public MedicalTherapy() { }
 
         public MedicalTherapy(Medicine medicine, TherapyDose therapyDose)
         {
-            _medicine = medicine;
-            _medicineId = medicine.Id;
-            _dose = therapyDose;
-            _doseId = therapyDose.Id;
+            Medicine = medicine;
+            Dose = therapyDose;
         }
 
         public override bool Equals(object obj)
         {
             var mt = obj as MedicalTherapy;
             return mt != null &&
-                   _id == mt._id;
+                   Id == mt.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
+
+        public bool containsMedicineWithName(string name)
+            => Medicine.Name.ToLower().Contains(name.ToLower());
     }
 }

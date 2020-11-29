@@ -10,17 +10,10 @@ namespace Backend.Model.PatientModel
 {
     public class DiseaseType
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private bool infectious;
-        public bool Infectious { get => infectious; set => infectious = value; }
-
-        private bool genetic;
-        public bool Genetic { get => genetic; set => genetic = value; }
-
-        private string type;
-        public string Type { get => type; set => type = value; }
+        public long Id { get; set; }
+        public bool Infectious { get; set; }
+        public bool Genetic { get; set; }
+        public string Type { get; set; }
 
         public DiseaseType(bool infectious, bool genetic, string type)
         {
@@ -28,11 +21,5 @@ namespace Backend.Model.PatientModel
             this.Genetic = genetic;
             this.Type = type;
         }
-
-        
-       
-        
     }
-
-
 }

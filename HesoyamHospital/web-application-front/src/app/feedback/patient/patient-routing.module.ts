@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/
 import { PostFeedbackComponent } from './post-feedback/post-feedback.component';
 
 const routes: Routes = [
+  
 ];
 
 @NgModule({

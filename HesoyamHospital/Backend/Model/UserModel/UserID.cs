@@ -13,14 +13,9 @@ namespace Backend.Model.UserModel
 {
     public class UserID : IComparable, IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private char _code;
-        public char Code { get => _code; set => _code = value; }
-
-        private int _number;
-        public int Number { get => _number; set => _number = value; }
+        public long Id { get; set; }
+        public char Code { get; set; }
+        public int Number { get; set; }
 
         public static UserID defaultDoctor = new UserID("d0");
         public static UserID defaultPatient = new UserID("p0");
@@ -74,13 +69,13 @@ namespace Backend.Model.UserModel
 
         public UserID increment()
         {
-            _number++;
+            Number++;
             return this;
         }
 
         public UserType GetUserType()
         {
-            switch (_code)
+            switch (Code)
             {
                 case 'p': return UserType.PATIENT;
                 case 'd': return UserType.DOCTOR;
@@ -92,11 +87,11 @@ namespace Backend.Model.UserModel
 
         public override int GetHashCode()
         {
-            return 999769 * _code.GetHashCode() + _number.GetHashCode();
+            return 999769 * Code.GetHashCode() + Number.GetHashCode();
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
     }
 }

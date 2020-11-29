@@ -13,29 +13,15 @@ namespace Backend.Model.UserModel
 {
     public class Feedback : IIdentifiable<long>
     {
-        private long _id;
-        public long Id {get => _id; set => _id = value;}
-
-        private User _user;
-        public User User { get => _user; set { _user = value; _userId = value.Id; } }
-
-        private long _userId;
-        public long UserId { get => _userId; set => _userId = value; }
-
-        private bool _published;
-        public bool Published { get => _published; set => _published = value; }
-
-        private bool _anonymous;
-        public bool Anonymous { get => _anonymous ; set => _anonymous = value; }
-
-        private bool _public;
-        public bool Public { get => _public; set => _public = value; }
-
-        private string _comment;
-        public string Comment { get => _comment; set => _comment = value; }
+        public long Id {get; set;}
+        public virtual User User { get; set; }
+        public bool Published { get; set; }
+        public bool Anonymous { get; set; }
+        public bool Public { get; set; }
+        public string Comment { get; set; }
 
         private List<QuestionAnswer> _rating;
-        public List<QuestionAnswer> Rating
+        public virtual List<QuestionAnswer> Rating
         {
             get
             {
@@ -54,61 +40,57 @@ namespace Backend.Model.UserModel
             }
         }
 
-        public long GetId() => _id;
-        public void SetId(long id) => _id = id;
+        public long GetId() => Id;
+        public void SetId(long id) => Id = id;
 
         public Feedback(User user, string comment)
         {
-            _user = user;
-            _userId = user.Id;
-            _comment = comment;
-            _rating = new List<QuestionAnswer>();
+            User = user;
+            Comment = comment;
+            Rating = new List<QuestionAnswer>();
         }
 
         public Feedback(long id, User user, string comment)
         {
-            _id = id;
-            _user = user;
-            _userId = user.Id;
-            _comment = comment;
-            _rating = new List<QuestionAnswer>();
+            Id = id;
+            User = user;
+            Comment = comment;
+            Rating = new List<QuestionAnswer>();
         }
 
         public Feedback(User user, string comment, List<QuestionAnswer> rating)
         {
-            _user = user;
-            _userId = user.Id;
-            _comment = comment;
+            User = user;
+            Comment = comment;
             if (rating == null)
-                _rating = new List<QuestionAnswer>();
+                Rating = new List<QuestionAnswer>();
             else
-                _rating = rating;
+                Rating = rating;
         }
 
         public Feedback(long id, User user, string comment, List<QuestionAnswer> rating)
         {
-            _id = id;
-            _user = user;
-            _userId = user.Id;
-            _comment = comment;
+            Id = id;
+            User = user;
+            Comment = comment;
             if (rating == null)
-                _rating = new List<QuestionAnswer>();
+                Rating = new List<QuestionAnswer>();
             else
-                _rating = rating;
+                Rating = rating;
         }
 
         public Feedback(long id)
         {
-            _id = id;
-            _rating = new List<QuestionAnswer>();
+            Id = id;
+            Rating = new List<QuestionAnswer>();
         }
 
         public Feedback(User _user, string _comment, bool _anonymous, bool _public)
         {
-            this._user = _user;
-            this._comment = _comment;
-            this._anonymous = _anonymous;
-            this._public = _public;
+            User = _user;
+            Comment = _comment;
+            Anonymous = _anonymous;
+            Public = _public;
         }
         public Feedback() { }
         
@@ -118,37 +100,36 @@ namespace Backend.Model.UserModel
                 return;
             if (qa.Rating == null)
                 qa.Rating = new Rating();
-            if (_rating == null)
-                _rating = new List<QuestionAnswer>();
-            if (_rating.Find(qatemp => qatemp.Question.Equals(qa.Question)) == null)
-                _rating.Add(qa);
+            if (Rating == null)
+                Rating = new List<QuestionAnswer>();
+            if (Rating.Find(qatemp => qatemp.Question.Equals(qa.Question)) == null)
+                Rating.Add(qa);
         }
 
         public void RemoveRating(QuestionAnswer qa)
         {
             if (qa == null)
                 return;
-            if (_rating != null)
-                if (_rating.Contains(qa))
-                    _rating.Remove(qa);
+            if (Rating != null && Rating.Contains(qa))
+                Rating.Remove(qa);
         }
 
         public void RemoveAllRating()
         {
-            if (_rating != null)
-                _rating.Clear();
+            if (Rating != null)
+                Rating.Clear();
         }
 
         public override bool Equals(object obj)
         {
             var feedback = obj as Feedback;
             return feedback != null &&
-                   _id == feedback._id;
+                   Id == feedback.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

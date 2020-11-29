@@ -19,7 +19,6 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
     public class NotificationRepository : MySQLRepository<Notification, long>, INotificationRepository, IEagerRepository<Notification, long>
     {
         private const string ENTITY_NAME = "Notification";
-        private string[] INCLUDE_PROPERTIES = { "Recipient" };
 
         public NotificationRepository(IMySQLStream<Notification> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Notification>())
         {
@@ -30,12 +29,6 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
             notification.Date = DateTime.Now;
             return base.Create(notification);
         }
-
-        public IEnumerable<Notification> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
-        public Notification GetEager(long id)
-            => GetAllEager().ToList().SingleOrDefault(notification => notification.GetId() == id);
 
         public IEnumerable<Notification> GetNotificationByUser(User user)
             => GetAll().ToList().Where(notification => notification.Recipient == null ? false : notification.Recipient.GetId().Equals(user.GetId()));

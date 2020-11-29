@@ -18,16 +18,9 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
     public class PrescriptionRepository : MySQLRepository<Prescription, long>, IPrescriptionRepository, IEagerRepository<Prescription, long>
     {
         private const string ENTITY_NAME = "Prescription";
-        private string[] INCLUDE_PROPERTIES = { "Doctor", "Medicine" };
 
         public PrescriptionRepository(IMySQLStream<Prescription> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Prescription>())
         {
         }
-
-        public IEnumerable<Prescription> GetAllEager()
-             => GetAllEager(INCLUDE_PROPERTIES);
-
-        public Prescription GetEager(long id)
-            => GetAllEager().SingleOrDefault(prescription => prescription.GetId() == id);
     }
 }

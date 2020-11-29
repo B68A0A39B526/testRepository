@@ -18,16 +18,9 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
     public class AllergyRepository : MySQLRepository<Allergy, long>, IAllergyRepository, IEagerRepository<Allergy,long>
     {
         private const string ENTITY_NAME = "Allergy";
-        private string[] INCLUDE_PROPERTIES = { "AllergicToIngredient", "Symptoms" };
 
         public AllergyRepository(IMySQLStream<Allergy> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Allergy>())
         {
         }
-
-        public IEnumerable<Allergy> GetAllEager()
-             => GetAllEager(INCLUDE_PROPERTIES);
-
-        public Allergy GetEager(long id)
-            => GetAllEager().SingleOrDefault(allergy => allergy.GetId() == id);
     }
 }

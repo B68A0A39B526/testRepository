@@ -1,30 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS web-build
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
-WORKDIR /app/WebApplication
+COPY ./WebApplicationTests/bin/Release/netcoreapp3.1/ .
+COPY ./WebApplicationTests .
 
-COPY ./WebApplication/WebApplication.csproj .
 
-WORKDIR /app/Backend
-
-COPY ./Backend/Backend.csproj .
-
-WORKDIR /app/WebApplicationTests
-
-COPY ./WebApplicationTests/WebApplicationTests.csproj .
-
-WORKDIR /app/WebApplicationTests
-
-RUN dotnet restore WebApplicationTests.csproj
-
-WORKDIR /app/WebApplication
-
-COPY ./WebApplication/. .
-
-WORKDIR /app/Backend
-
-COPY ./Backend/. .
-
-WORKDIR /app/WebApplicationTests
-
-COPY ./WebApplicationTests/. .
-
+ENTRYPOINT [ "dotnet", "IntegrationAdapterTests.dll" ]

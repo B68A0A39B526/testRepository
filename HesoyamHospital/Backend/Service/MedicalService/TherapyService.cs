@@ -24,8 +24,7 @@ namespace Backend.Service.MedicalService
             _therapyRepository = therapyRepository;
             _medicalRecordService = medicalRecordService;
         }
-        
-
+       
         public Prescription SetPerscription(Therapy therapy, Prescription prescription)
         {
             therapy.Prescription = prescription;
@@ -45,9 +44,6 @@ namespace Backend.Service.MedicalService
         public IEnumerable<Therapy> GetFilteredTherapy(TherapyFilter filter)
             => _therapyRepository.GetFilteredTherapy(filter);
 
-        public IEnumerable<Therapy> GetTherapyByDiagnosis(Diagnosis diagnosis)
-            => _therapyRepository.GetTherapyByDiagnosis(diagnosis);
-
         public IEnumerable<Therapy> GetActiveTherapyForPatient(Patient patient)
             => _therapyRepository.GetActiveTherapyForPatient(patient);
 
@@ -60,12 +56,6 @@ namespace Backend.Service.MedicalService
             //TODO: Do we even need this?
             throw new NotImplementedException();
         }
-
-        public IEnumerable<Therapy> GetActiveTherapyForDiagnosis(Diagnosis diagnosis)
-            => _therapyRepository.GetActiveTherapyForDiagnosis(diagnosis);
-
-        public IEnumerable<Therapy> GetPastTherapiesForDiagnosis(Diagnosis diagnosis)
-            => _therapyRepository.GetPastTherapiesForDiagnosis(diagnosis);
 
         public IEnumerable<Therapy> GetAll()
             => _therapyRepository.GetAllEager();

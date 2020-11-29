@@ -20,7 +20,6 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
     public class ArticleRepository : MySQLRepository<Article, long>, IArticleRepository, IEagerRepository<Article, long>
     {
         private const string ENTITY_NAME = "Article";
-        private string[] INCLUDE_PROPERTIES = { "Author" };
 
         public ArticleRepository(IMySQLStream<Article> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Article>())
         {
@@ -37,12 +36,5 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
 
         private bool IsAuthorIdsEqual(Employee authorId, Employee selectedAuthor)
             => authorId == null ? false : selectedAuthor.GetId().Equals(authorId.GetId());
-
-        public Article GetEager(long id)
-            => GetAllEager().ToList().SingleOrDefault(article => article.GetId() == id);
-
-        public IEnumerable<Article> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
     }
 }

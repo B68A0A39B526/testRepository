@@ -9,41 +9,32 @@ namespace Backend.Model.UserModel
 {
     public class DailyWorkingHours : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private WorkingDaysEnum _day;
-        public WorkingDaysEnum Day { get => _day; set => _day = value; }
-
-        private TimeInterval _timeInterval;
-        public TimeInterval TimeInterval { get => _timeInterval; set { _timeInterval = value; _timeIntervalid = value.Id; } }
-
-        private long _timeIntervalid;
-        public long TimeIntervalId { get => _timeIntervalid; set => _timeIntervalid = value; }
+        public long Id { get; set; }
+        public WorkingDaysEnum Day { get; set; }
+        public virtual TimeInterval TimeInterval { get; set; }
 
         public DailyWorkingHours() { }
 
         public DailyWorkingHours(WorkingDaysEnum day, TimeInterval timeInterval)
         {
-            _day = day;
-            _timeInterval = timeInterval;
-            _timeIntervalid = timeInterval.Id;
+            Day = day;
+            TimeInterval = timeInterval;
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
 
         public override bool Equals(object obj)
         {
             var dwh = obj as DailyWorkingHours;
             return dwh != null &&
-                   _id == dwh._id;
+                   Id == dwh.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

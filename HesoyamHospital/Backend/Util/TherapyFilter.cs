@@ -13,7 +13,6 @@ namespace Backend.Util
     public class TherapyFilter
     {
         private string _drugName;
-        private Doctor _doctor;
         private TimeInterval _timeInterval;
         private IEnumerable<TherapyTime> _therapyTimes;
 

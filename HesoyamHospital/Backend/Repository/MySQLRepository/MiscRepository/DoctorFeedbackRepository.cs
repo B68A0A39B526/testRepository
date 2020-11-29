@@ -21,7 +21,6 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
     public class DoctorFeedbackRepository : MySQLRepository<DoctorFeedback, long>, IDoctorFeedbackRepository, IEagerRepository<DoctorFeedback, long>
     {
         private const string ENTITY_NAME = "DoctorFeedback";
-        private string[] INCLUDE_PROPERTIES = { "Doctor" };
 
         public DoctorFeedbackRepository(IMySQLStream<DoctorFeedback> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<DoctorFeedback>())
         {
@@ -35,11 +34,5 @@ namespace Backend.Repository.MySQLRepository.MiscRepository
 
         public DoctorFeedback GetByPatientDoctor(Patient patient, Doctor doctor)
             => GetAllEager().ToList().SingleOrDefault(df => IsUserIdsEqual(df.Doctor, doctor) && IsUserIdsEqual(df.User, patient));
-
-        public DoctorFeedback GetEager(long id)
-            => GetAllEager().SingleOrDefault(df => df.GetId() == id);
-
-        public IEnumerable<DoctorFeedback> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

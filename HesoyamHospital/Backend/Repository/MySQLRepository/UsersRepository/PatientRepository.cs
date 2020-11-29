@@ -21,8 +21,7 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
         private const string NOT_UNIQUE_ERROR = "Patient username {0} is not unique!";
         private readonly IUserRepository _userRepository;
         private readonly DoctorRepository _doctorRepository;
-        private string[] INCLUDE_PROPERTIES = { "Address", "UserID","Hospital", "TimeTable", "EmergencyContact", "SelectedDoctor" };
-
+        
         public PatientRepository(IMySQLStream<Patient> stream, ISequencer<long> sequencer, DoctorRepository doctorRepository, IUserRepository userRepository) : base(ENTITY_NAME, stream, sequencer, new PatientIdGeneratorStrategy())
         {
             _doctorRepository = doctorRepository;
@@ -52,13 +51,6 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
 
         private bool IsUsernameUnique(string userName)
             => _userRepository.GetByUsername(userName) == null;
-
-        public IEnumerable<Patient> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
-
-        public Patient GetEager(long id)
-            => GetAllEager().SingleOrDefault(patient => patient.GetId() == id);
 
         private Doctor GetDoctorByID(Doctor doctorId, IEnumerable<Doctor> doctors)
             => doctorId == null ? null : doctors.SingleOrDefault(d => d.GetId().Equals(doctorId.GetId()));

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend;
+﻿using Backend;
+using Backend.Exceptions;
 using Backend.Model.PharmacyModel;
-using IntegrationAdapter.PharmacyMock;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestSharp;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace IntegrationAdapter.Controllers
 {
@@ -15,28 +11,29 @@ namespace IntegrationAdapter.Controllers
     [ApiController]
     public class RegisterPharmacyController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost]
+        public IActionResult Get(RegisteredPharmacy pharmacy)
         {
-            List<Pharmacy> Pharmacies = getPharmacies();
-            return Ok(Pharmacies);
-        }
-
-        [HttpGet("{pharmacyName}")]
-        public IActionResult Get(string pharmacyName)
-        {
-            PharmacyApiKey key = new PharmacyApiKey(pharmacyName + "_1234", pharmacyName);
-            AppResources.getInstance().pharmacyApiKeyService.Create(key);
-            return Ok();
-        }
-
-        private List<Pharmacy> getPharmacies()
-        {
-            var client = new RestSharp.RestClient("http://localhost:63518");
-            var request = new RestRequest("/api/pharmacymock");
-            var response = client.Get<List<Pharmacy>>(request);
-            return response.Data;
-
+            try
+            {
+                AppResources.getInstance().registeredPharmacyService.Create(pharmacy);
+                return Ok("Pharmacy with name " + pharmacy.PharmacyName + " registered.");
+            } catch (RegisteredPharmacyNameNotUniqueException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (InvalidRegisteredPharmacyEndpointException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

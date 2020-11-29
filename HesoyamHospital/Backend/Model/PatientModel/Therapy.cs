@@ -12,7 +12,9 @@ namespace Backend.Model.PatientModel
 {
     public class Therapy : IIdentifiable<long>
     {
-        public long _id { get; set; }
+        private long _id;
+        public long Id { get => _id; set => _id = value; }
+
         private TimeInterval _timeInterval;
         private Prescription _prescription;
         private long _timeIntervalID;
@@ -60,7 +62,7 @@ namespace Backend.Model.PatientModel
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

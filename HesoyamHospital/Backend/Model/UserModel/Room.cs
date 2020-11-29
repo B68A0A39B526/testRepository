@@ -13,58 +13,49 @@ namespace Backend.Model.UserModel
 {
     public class Room: IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private string _roomNumber;
-        public string RoomNumber { get => _roomNumber; set => _roomNumber = value; }
-
-        private bool _occupied;
-        public bool Occupied { get => _occupied; set => _occupied = value; }
-
-        private int _floor;
-        public int Floor { get => _floor; set => _floor = value; }
-
-        private RoomType _roomType;
-        public RoomType RoomType { get => _roomType; set => _roomType = value; }
+        public long Id { get; set; }
+        public string RoomNumber { get; set; }
+        public bool Occupied { get; set; }
+        public int Floor { get; set; }
+        public RoomType RoomType { get; set; }
 
         public Room(long id)
         {
-            _id = id;
+            Id = id;
         }
         
 
         public Room(string roomNumber, bool occupied, int floor, RoomType roomType)
         {
-            _roomNumber = roomNumber;
-            _occupied = occupied;
-            _floor = floor;
-            _roomType = roomType;
+            RoomNumber = roomNumber;
+            Occupied = occupied;
+            Floor = floor;
+            RoomType = roomType;
         }
 
         public Room(long id, string roomNumber, bool occupied, int floor, RoomType roomType)
         {
-            _id = id;
-            _roomNumber = roomNumber;
-            _occupied = occupied;
-            _floor = floor;
-            _roomType = roomType;
+            Id = id;
+            RoomNumber = roomNumber;
+            Occupied = occupied;
+            Floor = floor;
+            RoomType = roomType;
         }
 
         public override bool Equals(object obj)
         {
             var room = obj as Room;
             return room != null &&
-                   _id == room._id;
+                   Id == room.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
     }
 }

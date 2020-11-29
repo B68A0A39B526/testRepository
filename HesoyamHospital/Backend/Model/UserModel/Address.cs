@@ -11,28 +11,24 @@ namespace Backend.Model.UserModel
 {
     public class Address : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private string _street;
-        public string Street { get => _street; set => _street = value; }
-
-        private Location _location;
-        public Location Location { get => _location; set { _location = value; _locationID = value.Id; } }
-
-        private long _locationID;
-        public long LocationID { get => _locationID; set => _locationID = value; }
+        public long Id { get; set; }
+        public string Street { get; set; }
+        public virtual Location Location { get; set; }
 
         public Address() { }
         public Address(string street, Location location)
         {
-            _street = street;
-            _location = location;
-            _locationID = location.Id;
+            Street = street;
+            Location = location;
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
+        
+        public override string ToString()
+        {
+            return Street +", "+  Location.ToString();
+        }
     }
 }

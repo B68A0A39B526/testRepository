@@ -8,9 +8,13 @@ namespace Backend.Model.PatientModel
     public class DiseaseMedicine
     {
         public long DiseaseId { get; set; }
-        public Disease Disease { get => Disease; set { Disease = value; DiseaseId = value.Id; } }
+
+        private Disease _disease;
+        public virtual Disease Disease { get => _disease; set { _disease = value; DiseaseId = value.Id; } }
         public long MedicineId { get; set; }
-        public Medicine Medicine { get => Medicine; set { Medicine = value; MedicineId = value.Id; } }
+
+        private Medicine _medicine;
+        public virtual Medicine Medicine { get => _medicine; set { _medicine = value; MedicineId = value.Id; } }
         
         public DiseaseMedicine() { }
         public DiseaseMedicine(Disease d, Medicine m)

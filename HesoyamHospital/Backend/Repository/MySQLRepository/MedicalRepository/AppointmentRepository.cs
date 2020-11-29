@@ -22,8 +22,7 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
     public class AppointmentRepository : MySQLRepository<Appointment, long>, IAppointmentRepository, IEagerRepository<Appointment, long>
     {
         private const string ENTITY_NAME = "Appointment";
-        private string[] INCLUDE_PROPERTIES = { "DoctorInAppointment", "Room", "Patient", "TimeInterval" };
-
+        
         public AppointmentRepository(IMySQLStream<Appointment> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Appointment>())
         {
         }
@@ -67,11 +66,5 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
             }
             return result;
         }
-
-        public Appointment GetEager(long id)
-            => GetAllEager().SingleOrDefault(appointment => appointment.GetId() == id);
-
-        public IEnumerable<Appointment> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

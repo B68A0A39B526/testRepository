@@ -21,12 +21,12 @@ namespace Backend.Service.UsersService
 {
     public class DoctorService : IService<Doctor, long>
     {
-        private UserRepository _userRepository;
-        private DoctorRepository _doctorRepository;
-        private UserValidation _userValidation;
-        private AppointmentService _appointmentService;
+        private readonly UserRepository _userRepository;
+        private readonly DoctorRepository _doctorRepository;
+        private readonly UserValidation _userValidation;
+        private readonly AppointmentService _appointmentService;
 
-        public DoctorService(DoctorRepository doctorRepository,UserRepository userRepository, AppointmentService appointmentService)
+        public DoctorService(DoctorRepository doctorRepository, UserRepository userRepository, AppointmentService appointmentService)
         {
             _doctorRepository = doctorRepository;
             _appointmentService = appointmentService;
@@ -87,7 +87,7 @@ namespace Backend.Service.UsersService
             => _doctorRepository.GetAllEager();
 
         public Doctor GetByID(long id)
-            => _doctorRepository.GetEager(id);
+              => _doctorRepository.GetByID(id);
 
         public Doctor Create(Doctor entity)
         {
@@ -106,23 +106,16 @@ namespace Backend.Service.UsersService
 
         private WorkingDaysEnum GetDayOfWeek(DayOfWeek day)
         {
-           switch(day)
-           {
-                case DayOfWeek.Monday:
-                    return WorkingDaysEnum.MONDAY;
-                case DayOfWeek.Tuesday:
-                    return WorkingDaysEnum.TUESDAY;
-                case DayOfWeek.Wednesday:
-                    return WorkingDaysEnum.WEDNESDAY;
-                case DayOfWeek.Thursday:
-                    return WorkingDaysEnum.THURSDAY;
-                case DayOfWeek.Friday:
-                    return WorkingDaysEnum.FRIDAY;
-                case DayOfWeek.Saturday:
-                    return WorkingDaysEnum.SATURDAY;
-                default:
-                    return WorkingDaysEnum.SUNDAY;
-           };
+            return day switch
+            {
+                DayOfWeek.Monday => WorkingDaysEnum.MONDAY,
+                DayOfWeek.Tuesday => WorkingDaysEnum.TUESDAY,
+                DayOfWeek.Wednesday => WorkingDaysEnum.WEDNESDAY,
+                DayOfWeek.Thursday => WorkingDaysEnum.THURSDAY,
+                DayOfWeek.Friday => WorkingDaysEnum.FRIDAY,
+                DayOfWeek.Saturday => WorkingDaysEnum.SATURDAY,
+                _ => WorkingDaysEnum.SUNDAY
+            };
         }
     }
 }

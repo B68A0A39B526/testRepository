@@ -1,0 +1,86 @@
+<h2 style="text-align: center; font-size: 25px;">
+  MEDICAL RECORD
+</h2>
+<div style="height:100%; display: flex; justify-content:center;">
+    <mat-card class="mat-elevation-z8" style="margin-top: 1%; width: 40%; height: 80%; display: flex; justify-content: center; align-items: center; padding-top: 20px;">
+            <form >
+
+                <h2 style="text-align: center;">
+                    Basic information
+                </h2>
+    
+                <div class="left">
+                    <label class ="constLbl">Name:</label>
+                    <label>{{record.firstName}}</label>
+                    
+                </div>
+
+                <div class="left">
+                    <label class ="constLbl">Surname:</label>
+                    <label>{{record.lastName}}</label>
+                </div>
+                <div class="left">
+                  <label class ="constLbl">Father's name:</label>
+                  <label>{{record.middleName}}</label>
+                </div> 
+                <div class="left">
+                  <label class ="constLbl">Personal id:</label>
+                  <label>{{record.personalId}}</label>
+                </div>
+                <div class="left">
+                  <label class ="constLbl">Medical id:</label>
+                  <label>{{record.medicalId}}</label>
+                </div>
+                
+                <div class="left">
+                  <label class ="constLbl">Date of birth:</label>
+                  <label>{{record.dateOfBirth}}</label>
+                </div>
+
+                <div class="left">
+                  <label class ="constLbl">Address:</label>
+                  <label>{{record.address}}</label>
+                </div>
+                <div class="left">
+                  <label class ="constLbl">Mobile phone number:</label>
+                  <label>{{record.mobilePhone}}</label>
+                </div>
+                <div class="left">
+                  <label class ="constLbl">Home phone number:</label>
+                  <label>{{record.homePhone}}</label>
+                </div>
+                <div class="left">
+                  <label class ="constLbl">Email:</label>
+                  <label>{{record.email}}</label>
+              </div>
+              <div class="left">
+                <label class ="constLbl">Username:</label>
+                <label>{{record.username}}</label>
+            </div>
+                <div class="left">
+                    <label class ="constLbl">Password:</label>
+                    <label>{{record.password}}</label>
+                </div>
+              </form>
+    </mat-card>
+    <mat-card class="mat-elevation-z8" style="margin-top: 1%; width: 35%; height: 80%; display: flex; justify-content: center; align-items: top; padding-top: 20px;">
+    <form>
+      <h2 style="text-align: center;">
+        Medical information
+      </h2>
+      <div class="image">
+          <img class = "img" src = "{{imagePath}}" onerror="this.src='http://localhost:52166/Resources/Images/milijanadj.jpg'" height="200px" width="200px" ob>
+      </div>
+      <div class="left">
+            <label class ="constLbl">Blood type:</label>
+            <label>{{record.bloodType}}</label>
+      </div>
+      <div class="left">
+          <label class ="constLbl">Alergies:</label>
+            <ul>
+              <li *ngFor ="let a of record.alergies" style = "color: gray; ">{{a}}</li>
+            </ul>
+      </div>
+    </form>
+    </mat-card>
+</div>      

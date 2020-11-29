@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: 'public', loadChildren: () => import('./public/public.module').then(mod => mod.PublicModule)
   }
+ 
 ];
 
 @NgModule({

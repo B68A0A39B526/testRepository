@@ -21,7 +21,6 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
         private readonly IUserRepository _userRepository;
         private const string ENTITY_NAME = "Secretary";
         private const string NOT_UNIQUE_ERROR = "Secretary username {0} is not unique!";
-        private string[] INCLUDE_PROPERTIES = { "Address", "UserID","Hospital", "TimeTable" };
 
         public SecretaryRepository(IMySQLStream<Secretary> stream, ISequencer<long> sequencer, IUserRepository userRepository) : base(ENTITY_NAME, stream, sequencer, new SecretaryIdGeneratorStrategy())
         {
@@ -50,12 +49,6 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
 
         private bool IsUsernameUnique(string userName)
             => _userRepository.GetByUsername(userName) == null;
-
-        public IEnumerable<Secretary> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
-        public Secretary GetEager(long id)
-            => GetAllEager().SingleOrDefault(secretary => secretary.GetId() == id);
 
     }
 }

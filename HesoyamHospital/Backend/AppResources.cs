@@ -52,7 +52,10 @@ namespace Backend
         public QuestionRepository doctorQuestionRepository;
         public FeedbackRepository feedbackRepository;
         public DoctorFeedbackRepository doctorFeedbackRepository;
-        public PharmacyApiKeyRepository pharmacyApiKeyRepository;
+
+        public RegisteredPharmacyRepository registeredPharmacyRepository;
+
+        public SurveyRepository surveyRepository;
 
 
         //Hospital management
@@ -66,6 +69,7 @@ namespace Backend
         public IngredientRepository ingredientRepository;
         public MedicalRecordRepository medicalRecordRepository;
         public PrescriptionRepository prescriptionRepository;
+        public ReportRepository reportRepository;
         public SymptomRepository symptomRepository;
         public TherapyRepository therapyRepository;
 
@@ -95,11 +99,12 @@ namespace Backend
         public ArticleService articleService;
         public DoctorFeedbackService doctorFeedbackService;
         public FeedbackService feedbackService;
+        public SurveyService surveyService;
         public LocationService locationService;
         public MessageService messageService;
         public NotificationService notificationService;
         public AppointmentNotificationSender appointmentNotificationSender;
-        public PharmacyApiKeyService pharmacyApiKeyService;
+        public RegisteredPharmacyService registeredPharmacyService;
 
         // UsersService
         public DoctorService doctorService;
@@ -137,13 +142,14 @@ namespace Backend
             articleService = new ArticleService(articleRepository);
             doctorFeedbackService = new DoctorFeedbackService(doctorFeedbackRepository);
 
-            feedbackService = new FeedbackService(feedbackRepository, questionRepository, userRepository);
+            feedbackService = new FeedbackService(feedbackRepository, questionRepository);
+            surveyService = new SurveyService(surveyRepository);
             locationService = new LocationService(locationRepository);
             messageService = new MessageService(messageRepository);
             notificationService = new NotificationService(notificationRepository);
             appointmentNotificationSender = new AppointmentNotificationSender(notificationService);
             appointmentService = new AppointmentService(appointmentRepository, appointmentStrategy, appointmentNotificationSender);
-            pharmacyApiKeyService = new PharmacyApiKeyService(pharmacyApiKeyRepository);
+            registeredPharmacyService = new RegisteredPharmacyService(registeredPharmacyRepository);
 
             // UsersService
             doctorService = new DoctorService(doctorRepository, userRepository, appointmentService);
@@ -158,95 +164,24 @@ namespace Backend
         private void LoadRepositories()
         {
             userRepository = new UserRepository(new MySQLStream<User>(), new LongSequencer());
-            /*
-            // USER OK
-            /*
-
-            roomRepository = new RoomRepository(new MySQLStream<Room>(), new LongSequencer());
-            // ROOM OK
-
-            inventoryItemRepository = new InventoryItemRepository(new MySQLStream<InventoryItem>(), new LongSequencer());
-
-            timeTableRepository = new TimeTableRepository(new MySQLStream<TimeTable>(), new LongSequencer());
-            // TIMETABLE OK
-            */
             hospitalRepository = new HospitalRepository(new MySQLStream<Hospital>(), new LongSequencer());
-            // HOSPITAL OK
-            /*
-            secretaryRepository = new SecretaryRepository(new MySQLStream<Secretary>(), new LongSequencer(), userRepository);
-            // SECRETARY OK
-            managerRepository = new ManagerRepository(new MySQLStream<Manager>(), new LongSequencer(), userRepository);
-            // MANAGER OK
             doctorRepository = new DoctorRepository(new MySQLStream<Doctor>(), new LongSequencer(), userRepository);
-            // DOCTOR OK
             patientRepository = new PatientRepository(new MySQLStream<Patient>(), new LongSequencer(), doctorRepository, userRepository);
-            // PATIENT OK
-
-
-            //Misc repositories
             locationRepository = new LocationRepository(new MySQLStream<Location>(), new LongSequencer());
-            // LOCATION OK
-            notificationRepository = new NotificationRepository(new MySQLStream<Notification>(), new LongSequencer());
-            // NOTIFICATION OK
-            messageRepository = new MessageRepository(new MySQLStream<Message>(), new LongSequencer());
-            // MESSAGE OK
-            articleRepository = new ArticleRepository(new MySQLStream<Article>(), new LongSequencer());
-            //ARTICLE OK
-            questionRepository = new QuestionRepository(new MySQLStream<Question>(), new LongSequencer());
-            // QUESTION OK
-            doctorQuestionRepository = new QuestionRepository(new MySQLStream<Question>(), new LongSequencer());
-            //DOCTOR QUESTION OK
-            */
             feedbackRepository = new FeedbackRepository(new MySQLStream<Feedback>(), new LongSequencer());
-            /*
-            doctorFeedbackRepository = new DoctorFeedbackRepository(new MySQLStream<DoctorFeedback>(), new LongSequencer());
-
-
-            //Hospital management repositories
-            symptomRepository = new SymptomRepository(new MySQLStream<Symptom>(), new LongSequencer());
-            //SYMPTOM REPO OK
-            diseaseRepository = new DiseaseRepository(new MySQLStream<Disease>(), new LongSequencer(), medicineRepository, symptomRepository);
-            //DISEASE REPO OK
-            ingredientRepository = new IngredientRepository(new MySQLStream<Ingredient>(), new LongSequencer());
-            //INGREDIENT REPO OK
             medicineRepository = new MedicineRepository(new MySQLStream<Medicine>(), new LongSequencer());
-            //MEDICINE REPO OK
-
-
             prescriptionRepository = new PrescriptionRepository(new MySQLStream<Prescription>(), new LongSequencer());
-            //PRESCRIPTION REPO OK
-
-            //Medical repositories
-
+            reportRepository = new ReportRepository(new MySQLStream<Report>(), new LongSequencer());
             allergyRepository = new AllergyRepository(new MySQLStream<Allergy>(), new LongSequencer());
-            //ALLERGY REPO OK
-
-            appointmentRepository = new AppointmentRepository(new MySQLStream<Appointment>(), new LongSequencer());
-            //GERGO REPO OK?
-            therapyRepository = new TherapyRepository(new MySQLStream<Therapy>(), new LongSequencer());
-
-            //med record
             medicalRecordRepository = new MedicalRecordRepository(new MySQLStream<MedicalRecord>(), new LongSequencer());
-            //u medical record moras da set diagnosis repo
             diagnosisRepository = new DiagnosisRepository(new MySQLStream<Diagnosis>(), new LongSequencer());
-            //therapy
-            // therapyRepository = new TherapyRepository(new MySQLStream<Therapy>(therapyFile,new TherapyConverter()),new LongSequencer(),medicalRecordRepository, )
+            surveyRepository = new SurveyRepository(new MySQLStream<Survey>(), new LongSequencer());
+            
 
-            //ODAVDDE RADITI OSTALE
+            registeredPharmacyRepository = new RegisteredPharmacyRepository(new MySQLStream<RegisteredPharmacy>(), new LongSequencer());
 
-            doctorStatisticRepository = new DoctorStatisticRepository(new MySQLStream<StatsDoctor>(), new LongSequencer());
-            // Doc Stats OK
 
-            inventoryStatisticRepository = new InventoryStatisticsRepository(new MySQLStream<StatsInventory>(), new LongSequencer());
-            // InventoryStats OK
 
-            roomStatisticRepository = new RoomStatisticsRepository(new MySQLStream<StatsRoom>(), new LongSequencer());
-            // RoomStats OK
-
-            inventoryRepository = new InventoryRepository(new MySQLStream<Inventory>(), new LongSequencer());
-            */
-
-            pharmacyApiKeyRepository = new PharmacyApiKeyRepository(new MySQLStream<PharmacyApiKey>(), new LongSequencer());
         }
 
         public static AppResources getInstance()

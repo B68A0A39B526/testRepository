@@ -13,31 +13,28 @@ namespace Backend.Model.UserModel
 {
     public class TimeTable : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private List<DailyWorkingHours> _workingHours;
-        public List<DailyWorkingHours> WorkingHours { get => _workingHours; set => _workingHours = value; }
+        public long Id { get; set; }
+        public virtual List<DailyWorkingHours> WorkingHours { get; set; }
 
         public TimeTable(List<DailyWorkingHours> workingHours)
         {
-            _workingHours = workingHours;
+            WorkingHours = workingHours;
         }
 
         public TimeTable(long id, List<DailyWorkingHours> workingHours)
         {
-            _id = id;
-            _workingHours = workingHours;
+            Id = id;
+            WorkingHours = workingHours;
         }
 
         public TimeTable()
         {
-            _workingHours = new List<DailyWorkingHours>();
+            WorkingHours = new List<DailyWorkingHours>();
         }
 
         public TimeTable(long id)
         {
-            _id = id;
+            Id = id;
         }
 
         public bool Edit()
@@ -47,36 +44,36 @@ namespace Backend.Model.UserModel
 
         public List<DailyWorkingHours> getWorkingHours()
         {
-            return _workingHours;
+            return WorkingHours;
         }
 
         public void setWorkingHours(DailyWorkingHours newDailyWorkingHours)
         {
-            DailyWorkingHours dwh = _workingHours.Find(d => d.Day == newDailyWorkingHours.Day);
+            DailyWorkingHours dwh = WorkingHours.Find(d => d.Day == newDailyWorkingHours.Day);
             if (dwh != null)
             {
                 dwh.TimeInterval = newDailyWorkingHours.TimeInterval;
             }
             else
             {
-                _workingHours.Add(newDailyWorkingHours);
+                WorkingHours.Add(newDailyWorkingHours);
             }
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
 
         public override bool Equals(object obj)
         {
             var table = obj as TimeTable;
             return table != null &&
-                   _id == table._id;
+                   Id == table.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

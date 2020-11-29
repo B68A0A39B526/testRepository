@@ -17,12 +17,332 @@ namespace Backend.Migrations
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Backend.Model.PharmacyModel.PharmacyApiKey", b =>
+            modelBuilder.Entity("Backend.Model.PatientModel.Allergy", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MedicalRecordId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedicalRecordId");
+
+                    b.ToTable("Allergies");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Diagnosis", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("DiagnosisCode")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("DiagnosisName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diagnoses");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Disease", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DiseaseTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsChronic")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Overview")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiseaseTypeId");
+
+                    b.ToTable("Disease");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.DiseaseMedicine", b =>
+                {
+                    b.Property<long>("DiseaseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MedicineId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("DiseaseId", "MedicineId");
+
+                    b.HasIndex("MedicineId");
+
+                    b.ToTable("DiseaseMedicine");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.DiseaseType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Genetic")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Infectious")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiseaseType");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Ingredient", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MedicineId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedicineId");
+
+                    b.ToTable("Ingredient");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.MedicalRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("PatientBloodType")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("PatientId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("MedicalRecords");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.MedicalTherapy", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DoseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MedicineId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PrescriptionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoseId");
+
+                    b.HasIndex("MedicineId");
+
+                    b.HasIndex("PrescriptionId");
+
+                    b.ToTable("Therapies");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Medicine", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("MedicineType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Medicine");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Prescription", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("DiagnosisId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DoctorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MedicalRecordId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PatientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiagnosisId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("MedicalRecordId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Prescriptions");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Report", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("DiagnosisId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DoctorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MedicalRecordId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PatientId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiagnosisId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("MedicalRecordId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.SingleTherapyDose", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double");
+
+                    b.Property<long?>("TherapyDoseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TherapyTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TherapyDoseId");
+
+                    b.ToTable("SingleTherapyDose");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Symptom", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DiseaseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("Symptom");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.TherapyDose", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TherapyDose");
+                });
+
+            modelBuilder.Entity("Backend.Model.PharmacyModel.RegisteredPharmacy", b =>
                 {
                     b.Property<string>("PharmacyName")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ApiKey")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<long>("Id")
@@ -30,7 +350,7 @@ namespace Backend.Migrations
 
                     b.HasKey("PharmacyName");
 
-                    b.ToTable("PharmacyApiKeys");
+                    b.ToTable("RegisteredPharmacies");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.Address", b =>
@@ -39,7 +359,7 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("LocationID")
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Street")
@@ -47,7 +367,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationID");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Address");
                 });
@@ -61,7 +381,7 @@ namespace Backend.Migrations
                     b.Property<int>("Day")
                         .HasColumnType("int");
 
-                    b.Property<long>("TimeIntervalId")
+                    b.Property<long?>("TimeIntervalId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("TimeTableId")
@@ -94,7 +414,7 @@ namespace Backend.Migrations
                     b.Property<bool>("Published")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -110,7 +430,7 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("AddressID")
+                    b.Property<long?>("AddressId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -124,7 +444,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressID");
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Hospitals");
                 });
@@ -143,7 +463,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.Question", b =>
@@ -169,10 +489,10 @@ namespace Backend.Migrations
                     b.Property<long?>("FeedbackId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("QuestionId")
+                    b.Property<long?>("QuestionId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("RatingId")
+                    b.Property<long?>("RatingId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -231,6 +551,65 @@ namespace Backend.Migrations
                     b.ToTable("Room");
                 });
 
+            modelBuilder.Entity("Backend.Model.UserModel.Section", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AnswerFour")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AnswerOne")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AnswerThree")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AnswerTwo")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Section");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Survey", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DoctorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DoctorSectionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("EquipmentSectionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("HygieneSectionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("StaffSectionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("DoctorSectionId");
+
+                    b.HasIndex("EquipmentSectionId");
+
+                    b.HasIndex("HygieneSectionId");
+
+                    b.HasIndex("StaffSectionId");
+
+                    b.ToTable("Surveys");
+                });
+
             modelBuilder.Entity("Backend.Model.UserModel.TimeTable", b =>
                 {
                     b.Property<long>("Id")
@@ -248,10 +627,14 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("AddressID")
+                    b.Property<long?>("AddressId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("CellPhone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("DateCreated")
@@ -263,10 +646,6 @@ namespace Backend.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Email1")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -274,6 +653,9 @@ namespace Backend.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("HomePhone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Jmbg")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("MiddleName")
@@ -302,13 +684,13 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressID");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("UidId");
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                    b.HasDiscriminator<string>("ContentType").HasValue("User");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.UserID", b =>
@@ -350,35 +732,198 @@ namespace Backend.Migrations
                 {
                     b.HasBaseType("Backend.Model.UserModel.User");
 
-                    b.Property<long>("HospitalID")
+                    b.Property<long?>("HospitalId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TimeTableID")
+                    b.Property<long?>("TimeTableId")
                         .HasColumnType("bigint");
 
-                    b.HasIndex("HospitalID");
+                    b.HasIndex("HospitalId");
 
-                    b.HasIndex("TimeTableID");
+                    b.HasIndex("TimeTableId");
 
                     b.HasDiscriminator().HasValue("Employee");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Patient", b =>
+                {
+                    b.HasBaseType("Backend.Model.UserModel.User");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("HealthCardNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("PatientType")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("SelectedDoctorId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("SelectedDoctorId");
+
+                    b.HasDiscriminator().HasValue("Patient");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.SystemAdmin", b =>
+                {
+                    b.HasBaseType("Backend.Model.UserModel.User");
+
+                    b.HasDiscriminator().HasValue("SystemAdmin");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Doctor", b =>
+                {
+                    b.HasBaseType("Backend.Model.UserModel.Employee");
+
+                    b.Property<int>("DoctorType")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("OfficeId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("OfficeId");
+
+                    b.HasDiscriminator().HasValue("Doctor");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Manager", b =>
+                {
+                    b.HasBaseType("Backend.Model.UserModel.Employee");
+
+                    b.HasDiscriminator().HasValue("Manager");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Secretary", b =>
+                {
+                    b.HasBaseType("Backend.Model.UserModel.Employee");
+
+                    b.HasDiscriminator().HasValue("Secretary");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Allergy", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.MedicalRecord", null)
+                        .WithMany("Allergy")
+                        .HasForeignKey("MedicalRecordId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Disease", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.DiseaseType", "DiseaseType")
+                        .WithMany()
+                        .HasForeignKey("DiseaseTypeId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.DiseaseMedicine", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.Disease", "Disease")
+                        .WithMany("AdministratedFor")
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Model.PatientModel.Medicine", "Medicine")
+                        .WithMany("UsedFor")
+                        .HasForeignKey("MedicineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Ingredient", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.Medicine", null)
+                        .WithMany("Ingredient")
+                        .HasForeignKey("MedicineId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.MedicalRecord", b =>
+                {
+                    b.HasOne("Backend.Model.UserModel.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.MedicalTherapy", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.TherapyDose", "Dose")
+                        .WithMany()
+                        .HasForeignKey("DoseId");
+
+                    b.HasOne("Backend.Model.PatientModel.Medicine", "Medicine")
+                        .WithMany()
+                        .HasForeignKey("MedicineId");
+
+                    b.HasOne("Backend.Model.PatientModel.Prescription", null)
+                        .WithMany("MedicalTherapies")
+                        .HasForeignKey("PrescriptionId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Prescription", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.Diagnosis", "Diagnosis")
+                        .WithMany()
+                        .HasForeignKey("DiagnosisId");
+
+                    b.HasOne("Backend.Model.UserModel.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("Backend.Model.PatientModel.MedicalRecord", null)
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("MedicalRecordId");
+
+                    b.HasOne("Backend.Model.UserModel.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Report", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.Diagnosis", "Diagnosis")
+                        .WithMany()
+                        .HasForeignKey("DiagnosisId");
+
+                    b.HasOne("Backend.Model.UserModel.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("Backend.Model.PatientModel.MedicalRecord", null)
+                        .WithMany("PatientReports")
+                        .HasForeignKey("MedicalRecordId");
+
+                    b.HasOne("Backend.Model.UserModel.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.SingleTherapyDose", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.TherapyDose", null)
+                        .WithMany("Dosage")
+                        .HasForeignKey("TherapyDoseId");
+                });
+
+            modelBuilder.Entity("Backend.Model.PatientModel.Symptom", b =>
+                {
+                    b.HasOne("Backend.Model.PatientModel.Disease", null)
+                        .WithMany("Symptoms")
+                        .HasForeignKey("DiseaseId");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.Address", b =>
                 {
                     b.HasOne("Backend.Model.UserModel.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.DailyWorkingHours", b =>
                 {
                     b.HasOne("Backend.Util.TimeInterval", "TimeInterval")
                         .WithMany()
-                        .HasForeignKey("TimeIntervalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TimeIntervalId");
 
                     b.HasOne("Backend.Model.UserModel.TimeTable", null)
                         .WithMany("WorkingHours")
@@ -389,18 +934,14 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Model.UserModel.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.Hospital", b =>
                 {
                     b.HasOne("Backend.Model.UserModel.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.QuestionAnswer", b =>
@@ -411,15 +952,11 @@ namespace Backend.Migrations
 
                     b.HasOne("Backend.Model.UserModel.Question", "Question")
                         .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("Backend.Model.UserModel.Rating", "Rating")
                         .WithMany()
-                        .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RatingId");
                 });
 
             modelBuilder.Entity("Backend.Model.UserModel.Room", b =>
@@ -429,13 +966,34 @@ namespace Backend.Migrations
                         .HasForeignKey("HospitalId");
                 });
 
+            modelBuilder.Entity("Backend.Model.UserModel.Survey", b =>
+                {
+                    b.HasOne("Backend.Model.UserModel.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("Backend.Model.UserModel.Section", "DoctorSection")
+                        .WithMany()
+                        .HasForeignKey("DoctorSectionId");
+
+                    b.HasOne("Backend.Model.UserModel.Section", "EquipmentSection")
+                        .WithMany()
+                        .HasForeignKey("EquipmentSectionId");
+
+                    b.HasOne("Backend.Model.UserModel.Section", "HygieneSection")
+                        .WithMany()
+                        .HasForeignKey("HygieneSectionId");
+
+                    b.HasOne("Backend.Model.UserModel.Section", "StaffSection")
+                        .WithMany()
+                        .HasForeignKey("StaffSectionId");
+                });
+
             modelBuilder.Entity("Backend.Model.UserModel.User", b =>
                 {
                     b.HasOne("Backend.Model.UserModel.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("Backend.Model.UserModel.UserID", "Uid")
                         .WithMany()
@@ -446,15 +1004,25 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Model.UserModel.Hospital", "Hospital")
                         .WithMany("Employee")
-                        .HasForeignKey("HospitalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HospitalId");
 
                     b.HasOne("Backend.Model.UserModel.TimeTable", "TimeTable")
                         .WithMany()
-                        .HasForeignKey("TimeTableID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TimeTableId");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Patient", b =>
+                {
+                    b.HasOne("Backend.Model.UserModel.Doctor", "SelectedDoctor")
+                        .WithMany()
+                        .HasForeignKey("SelectedDoctorId");
+                });
+
+            modelBuilder.Entity("Backend.Model.UserModel.Doctor", b =>
+                {
+                    b.HasOne("Backend.Model.UserModel.Room", "Office")
+                        .WithMany()
+                        .HasForeignKey("OfficeId");
                 });
 #pragma warning restore 612, 618
         }

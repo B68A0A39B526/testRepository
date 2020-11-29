@@ -13,19 +13,21 @@ namespace Backend.Model.PatientModel
 {
     public class TherapyDose : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
+        public long Id { get; set; }
+        public virtual List<SingleTherapyDose> Dosage { get; set; }
 
-        private List<SingleTherapyDose> _dosage;
-        public List<SingleTherapyDose> Dosage { get => _dosage; set => _dosage = value; }
+        public TherapyDose()
+        {
+
+        }
 
         public TherapyDose(List<SingleTherapyDose> dosage)
         {
-            _dosage = dosage;
+            Dosage = dosage;
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
     }
 }

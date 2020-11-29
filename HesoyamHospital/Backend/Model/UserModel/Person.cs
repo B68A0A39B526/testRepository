@@ -21,6 +21,9 @@ namespace Backend.Model.UserModel
         private string _middleName;
         public string MiddleName { get => _middleName; set => _middleName = value; }
 
+        private string _jmbg;
+        public string Jmbg { get => _jmbg; set => _jmbg = value; }
+
         private DateTime _dateOfBirth;
         public DateTime DateOfBirth { get => _dateOfBirth; set => _dateOfBirth = value; }
 
@@ -37,10 +40,7 @@ namespace Backend.Model.UserModel
         public string Email2 { get => _email2; set => _email2 = value; }
 
         private Address _address;
-        public Address Address { get => _address; set { _address = value; _addressID = value.Id; } }
-
-        private long _addressID;
-        public long AddressID { get => _addressID; set => _addressID = value; }
+        public virtual Address Address { get => _address; set => _address = value; }
 
         private Sex _sex;
         public Sex Sex { get => _sex; set => _sex = value; }
@@ -57,9 +57,10 @@ namespace Backend.Model.UserModel
         }
 
         public Person() { }
-        public Person(  string name, 
-                        string surname, 
-                        string middleName, 
+        public Person(string name,
+                        string surname,
+                        string middleName,
+                        string jmbg,
                         Sex sex, 
                         DateTime dateOfBirth, 
                         string uidn, 
@@ -72,15 +73,40 @@ namespace Backend.Model.UserModel
             _name = name;
             _surname = surname;
             _middleName = middleName;
+            _jmbg = jmbg;
             _sex = sex;
             _dateOfBirth = dateOfBirth;
             _uidn = uidn;
             _address = address;
-            _addressID = address.Id;
             _homePhone = homePhone;
             _cellPhone = cellPhone;
             _email1 = email1;
             _email2 = email2;
+        }
+
+        public Person(string name,
+                        string surname,
+                        string middleName,
+                        string jmbg,
+                        Sex sex,
+                        DateTime dateOfBirth,
+                        string uidn,
+                        Address address,
+                        string homePhone,
+                        string cellPhone,
+                        string email1)
+        {
+            _name = name;
+            _surname = surname;
+            _middleName = middleName;
+            _jmbg = jmbg;
+            _sex = sex;
+            _dateOfBirth = dateOfBirth;
+            _uidn = uidn;
+            _address = address;
+            _homePhone = homePhone;
+            _cellPhone = cellPhone;
+            _email1 = email1;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Backend.Service.MedicalService
             _medicalRecordRepository = medicalRecordRepository;
         }
 
-        public Diagnosis AddDiagnosis(Patient patient, Diagnosis diagnosis)
+        public Report AddPatientReport(Patient patient, Report report)
         {
             MedicalRecord medicalRecord = GetPatientMedicalRecord(patient);
             
@@ -31,10 +31,10 @@ namespace Backend.Service.MedicalService
                 throw new EntityNotFoundException("Medical record not found!");
             }
 
-            medicalRecord.AddPatientDiagnosis(diagnosis);
+            medicalRecord.AddPatientReport(report);
             _medicalRecordRepository.Update(medicalRecord);
 
-            return diagnosis;
+            return report;
         }
 
         public IEnumerable<Allergy> GetPatientAllergies(Patient patient)
@@ -52,6 +52,8 @@ namespace Backend.Service.MedicalService
         public MedicalRecord GetPatientMedicalRecord(Patient patient)
             => _medicalRecordRepository.GetPatientMedicalRecord(patient);
 
+        public MedicalRecord GetPatientMedicalRecordByPatientId(long patientId)
+           => _medicalRecordRepository.GetPatientMedicalRecordByPatientId(patientId);
         public MedicalRecord AddAllergy(MedicalRecord medicalRecord, Allergy allergy)
         {
             medicalRecord.AddAllergy(allergy);

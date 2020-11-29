@@ -1,0 +1,90 @@
+<h1 style="margin-top: 10px; margin-bottom: 10px; text-align: center;">Simple search of documents</h1>
+  <div>
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+      <mat-card class="mat-elevation-z8" style="width: 80%; padding-top: 20px; padding-bottom: 20pc;">
+        <form #feedform="ngForm" novalidate style="margin-top: 10px;" (ngSubmit)="submit()">
+            <div style="display: flex; justify-content: center; padding: 10px">
+              Type of documents: 
+              <mat-checkbox class="example-margin" name="reportsChechbox" [(ngModel)]="searchCriteria.ShouldSearchReports">Reports</mat-checkbox>
+              <mat-checkbox class="example-margin" name="prescriptionsCheckbox" [(ngModel)]="searchCriteria.ShouldSearchPrescriptions">Prescriptions</mat-checkbox>
+            </div>
+            <div style="display: flex; justify-content: center; margin: 10px;">
+              <mat-form-field appearance="fill" color="primary">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                  <input matStartDate placeholder="Start date" name="startDateInput" [(ngModel)] = "searchCriteria.TimeInterval.StartTime">
+                  <input matEndDate placeholder="End date" name="endDateInput" [(ngModel)] = "searchCriteria.TimeInterval.EndTime">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>  
+            </div>
+            <div style="display: flex; justify-content: center; margin-left: 10px; margin-top: 5%;">
+              <mat-form-field class="example-form-field" style="margin-right: 5%;">
+                <mat-label>Doctor name</mat-label>
+                <input matInput type="text" name="doctorNameInput" [(ngModel)]="searchCriteria.DoctorName">
+                <button mat-button *ngIf="searchCriteria.DoctorName" matSuffix mat-icon-button aria-label="Clear" (click)="searchCriteria.DoctorName=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              <mat-form-field class="example-form-field" style="margin-right: 5%;">
+                <mat-label>Diagnosis name</mat-label>
+                <input matInput type="text" name="diagnosisNameInput" [(ngModel)]="searchCriteria.DiagnosisName">
+                <button mat-button *ngIf="searchCriteria.DiagnosisName" matSuffix mat-icon-button aria-label="Clear" (click)="searchCriteria.DiagnosisName=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              <mat-form-field class="example-form-field" *ngIf="searchCriteria.ShouldSearchPrescriptions" style="margin-right: 5%;">
+                <mat-label>Medicine name (prescriptions only)</mat-label>
+                <input matInput type="text" name="medicineNameInput" [(ngModel)]="searchCriteria.MedicineName">
+                <button mat-button *ngIf="searchCriteria.MedicineName" matSuffix mat-icon-button aria-label="Clear" (click)="searchCriteria.MedicineName=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              <mat-form-field class="example-form-field" *ngIf="searchCriteria.ShouldSearchReports" style="margin-right: 10px;">
+                <mat-label>Doctor's comment (reports only)</mat-label>
+                <input matInput type="text" name="dommentInput" [(ngModel)]="searchCriteria.Comment">
+                <button mat-button *ngIf="searchCriteria.Comment" matSuffix mat-icon-button aria-label="Clear" (click)="searchCriteria.Comment=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+              <button mat-raised-button color="primary" type="submit" style="padding: 12px 32px">Search</button>
+            </div>
+        </form>
+      </mat-card>
+    </div>
+    
+    <div></div>
+
+    <div style="display: flex; justify-content: center; margin-top: 20%;">
+      <table mat-table [dataSource] = "data" class="mat-elevation-z8">
+          <ng-container matColumnDef="DateCreated">
+              <th mat-header-cell *matHeaderCellDef> DATE CREATED </th>
+              <td mat-cell *matCellDef="let element"> {{element.dateCreated | date : longDate}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="DoctorName">
+              <th mat-header-cell *matHeaderCellDef> DOCTOR NAME </th>
+              <td mat-cell *matCellDef="let element"> {{element.doctorName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="DiagnosisName">
+              <th mat-header-cell *matHeaderCellDef> DIAGNOSIS NAME </th>
+              <td mat-cell *matCellDef="let element"> {{element.diagnosisName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Observe">
+              <th mat-header-cell *matHeaderCellDef> OBSERVE </th>
+              <td mat-cell *matCellDef="let element"> 
+                <button mat-stroked-button color="primary">Preview</button>                                      
+              </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+

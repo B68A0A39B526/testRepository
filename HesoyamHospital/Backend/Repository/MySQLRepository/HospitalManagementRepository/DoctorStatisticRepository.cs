@@ -17,17 +17,10 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
     public class DoctorStatisticRepository : MySQLRepository<StatsDoctor, long>, IDoctorStatisticRepository, IEagerRepository<StatsDoctor, long>
     {
         private const string ENTITY_NAME = "Doctor Statistics Repository";
-        private string[] INCLUDE_PROPERTIES = {"Doctor"};
         public DoctorStatisticRepository(IMySQLStream<StatsDoctor> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<StatsDoctor>()) { }
-
-        public IEnumerable<StatsDoctor> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
 
         public IEnumerable<StatsDoctor> GetDoctorStatistics()
             => GetAll();
-
-        public StatsDoctor GetEager(long id)
-            => GetAllEager().SingleOrDefault(stat => stat.GetId() == id);
 
         public IEnumerable<StatsDoctor> GetStatisticsByDoctor(Doctor doctor)
             => GetAll().Where(stat => stat.Doctor.GetId().Equals(doctor));

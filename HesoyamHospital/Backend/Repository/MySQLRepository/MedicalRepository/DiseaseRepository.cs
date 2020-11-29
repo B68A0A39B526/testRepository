@@ -19,7 +19,6 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
     public class DiseaseRepository : MySQLRepository<Disease, long>, IDiseaseRepository, IEagerRepository<Disease, long>
     {
         private const string ENTITY_NAME = "Disease";
-        private string[] INCLUDE_PROPERTIES = { "DiseaseType","AdministratedFor","Symptoms"};
 
         public DiseaseRepository(IMySQLStream<Disease> stream, ISequencer<long> sequencer, IEagerRepository<Medicine, long> medicineEagerCSVRepository, ISymptomRepository symptomRepository) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Disease>())
         {
@@ -30,11 +29,5 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
 
         public IEnumerable<Disease> GetDiseasesByType(DiseaseType type)
             => GetAllEager().Where(disease => disease.DiseaseType == type);
-
-        public Disease GetEager(long id)
-            => GetAllEager().SingleOrDefault(disease => disease.GetId() == id);
-
-        public IEnumerable<Disease> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
     }
 }

@@ -7,8 +7,8 @@ namespace Backend.Repository.MySQLRepository.MySQL
 {
     public interface IEagerRepository<T, ID>
     {
-        T GetEager(ID id, string[] includeProperties);
+        T GetEager(ID id);
 
-        IEnumerable<T> GetAllEager(string[] includeProperties);
+        IEnumerable<T> GetAllEager();
     }
 }

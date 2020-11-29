@@ -16,14 +16,8 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
     public class InventoryStatisticsRepository : MySQLRepository<StatsInventory, long>, IInventoryStatisticsRepository, IEagerRepository<StatsInventory, long>
     {
         private const string ENTITY_NAME = "Inventory Statistics Repository";
-        private string[] INCLUDE_PROPERTIES = { "Medicine", "InventoryItem"};
+
         public InventoryStatisticsRepository(IMySQLStream<StatsInventory> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<StatsInventory>()) {}
-
-        public IEnumerable<StatsInventory> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
-        public StatsInventory GetEager(long id)
-            => GetAllEager().SingleOrDefault(stat => stat.GetId() == id);
 
         public StatsInventory GetInventoryStatistics()
         {

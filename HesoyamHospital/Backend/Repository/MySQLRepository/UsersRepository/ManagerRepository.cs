@@ -21,7 +21,6 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
         private readonly IUserRepository _userRepository;
         private const string ENTITY_NAME = "Manager";
         private const string NOT_UNIQUE_ERROR = "Manager username {0} is not unique!";
-        private string[] INCLUDE_PROPERTIES = { "Address", "UserID","Hospital", "TimeTable" };
 
         public ManagerRepository(IMySQLStream<Manager> stream, ISequencer<long> sequencer, IUserRepository userRepository) : base(ENTITY_NAME, stream, sequencer, new ManagerIdGeneratorStrategy())
         {
@@ -49,11 +48,5 @@ namespace Backend.Repository.MySQLRepository.UsersRepository
 
         private bool IsUsernameUnique(string userName)
             => _userRepository.GetByUsername(userName) == null;
-
-        public IEnumerable<Manager> GetAllEager()
-            => GetAllEager(INCLUDE_PROPERTIES);
-
-        public Manager GetEager(long id)
-            => GetAllEager().SingleOrDefault(manager => manager.GetId() == id);
     }
 }

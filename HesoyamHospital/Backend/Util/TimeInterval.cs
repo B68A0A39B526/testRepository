@@ -9,25 +9,20 @@ namespace Backend.Util
 {
     public class TimeInterval
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
+        public long Id { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
 
-        private DateTime _startTime;
-        public DateTime StartTime { get => _startTime; set => _startTime = value; }
-
-        private DateTime _endTime;
-        public DateTime EndTime { get => _endTime; set => _endTime = value; }
+        public TimeInterval() { }
 
         public TimeInterval(DateTime startTime, DateTime endTime)
         {
-            //TODO: Enforce endTime >= startTime
-            
-            _startTime = startTime;
-            _endTime = endTime;
+            StartTime = startTime;
+            EndTime = endTime;
         }
 
         public bool IsDateTimeBetween(DateTime dateTime)
-            => ((dateTime >= StartTime) && (dateTime <= EndTime));
+            => StartTime < dateTime && EndTime > dateTime;
 
         public bool IsDateTimeBetween(TimeInterval timeInterval)
         {
@@ -51,12 +46,32 @@ namespace Backend.Util
         public TimeSpan Duration()
             => EndTime.Subtract(StartTime);
 
+        public bool IsFullyDefined()
+        {   
+            if (StartTime != null && EndTime != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsInOrder()
+            => EndTime >= StartTime;
+
+        public bool IsInThePast()
+            => StartTime <= DateTime.Now && EndTime <= DateTime.Now;
+
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
             TimeInterval otherTime = obj as TimeInterval;
 
             return StartTime.Equals(otherTime.StartTime) && EndTime.Equals(otherTime.EndTime);
+        }
+
+        public override int GetHashCode()
+        {
+            return 1969571243 + Id.GetHashCode();
         }
     }
 }

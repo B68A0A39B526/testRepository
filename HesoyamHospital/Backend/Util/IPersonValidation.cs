@@ -11,11 +11,7 @@ namespace Backend.Util
     {
         void CheckName(string name);
 
-        void CheckUidn(string uidn);
-
         void CheckDateOfBirth(DateTime date);
-
-        void CheckEmail(string email);
 
         void CheckPhoneNumber(string phoneNumber);
 

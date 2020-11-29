@@ -62,7 +62,6 @@ namespace Backend.Service.HospitalManagementService
 
         public void Validate(Medicine entity)
         {
-            CheckStrength(entity.Strength);
             CheckInStock(entity.InStock);
             CheckMinNumber(entity.MinNumber);
             CheckName(entity.Name);
@@ -84,12 +83,6 @@ namespace Backend.Service.HospitalManagementService
         {
             if (inStock < 0)
                 throw new MedicineServiceException("InStock is less than zero!");
-        }
-
-        private void CheckStrength(double strength)
-        {
-            if (strength < 0)
-                throw new MedicineServiceException("Strength is less than zero!");
         }
 
     }

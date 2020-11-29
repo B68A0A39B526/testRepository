@@ -24,9 +24,6 @@ namespace Backend.Service.MedicalService
         public IEnumerable<Diagnosis> GetAllDiagnosisForPatient(Patient patient)
             => _diagnosisRepository.GetAllDiagnosisForPatient(patient);
 
-        public IEnumerable<Diagnosis> GetDiagnosisByMedicine(Medicine medicine)
-            => _diagnosisRepository.GetDiagnosisByMedicine(medicine);
-
         public IEnumerable<Diagnosis> GetAll()
             => _diagnosisRepository.GetAllEager();
 

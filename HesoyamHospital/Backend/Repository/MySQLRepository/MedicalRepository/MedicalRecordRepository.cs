@@ -21,7 +21,6 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
     public class MedicalRecordRepository : MySQLRepository<MedicalRecord, long>, IMedicalRecordRepository, IEagerRepository<MedicalRecord, long>
     {
         private const string ENTITY_NAME = "MedicalRecord";
-        private string[] INCLUDE_PROPERTIES = { "PatientDiagnosis", "Allergy", "Patient" };
 
         public MedicalRecordRepository(IMySQLStream<MedicalRecord> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<MedicalRecord>())
         {
@@ -30,10 +29,7 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
         public MedicalRecord GetPatientMedicalRecord(Patient patient)
             => GetAllEager().SingleOrDefault(medicalRecord => medicalRecord.Patient.Equals(patient));
 
-        public MedicalRecord GetEager(long id)
-            => GetAllEager().SingleOrDefault(medicalRecord => medicalRecord.GetId() == id);
-
-        public IEnumerable<MedicalRecord> GetAllEager()
-             => GetAllEager(INCLUDE_PROPERTIES);
+        public MedicalRecord GetPatientMedicalRecordByPatientId(long patient)
+            => GetAllEager().SingleOrDefault(medicalRecord => medicalRecord.Patient.Id.Equals(patient));
     }
 }

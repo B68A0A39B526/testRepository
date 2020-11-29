@@ -37,11 +37,6 @@ namespace Backend.Specifications.Converter
             return new ExpressionSpecification<Medicine>(o => o.Ingredient == null ? false : o.Ingredient.Equals(ingredient));
         }
 
-        private ISpecification<Medicine> GetSpecificationByStrength(double strength)
-        {
-            return new ExpressionSpecification<Medicine>(o => o.Strength == strength);
-        }
-
         public ISpecification<Medicine> GetSpecification()
         {
             bool andFilter = true;
@@ -60,11 +55,6 @@ namespace Backend.Specifications.Converter
             if(!String.IsNullOrEmpty(_filter.Name))
             {
                 specification = specification.And(GetSpecificationByName(_filter.Name));
-            }
-
-            if(_filter.Strength != default)
-            {
-                specification = specification.And(GetSpecificationByStrength(_filter.Strength));
             }
 
             specification = specification.And(GetSpecificationByType(_filter.Type));

@@ -10,46 +10,46 @@ namespace Backend.Model.UserModel
 {
     public class Location : IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private string _country;
-        public string Country { get => _country; set => _country = value; }
-
-        private string _city;
-        public string City { get => _city; set => _city = value; }
+        public long Id { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
 
         public Location(string country, string city)
         {
-            _country = country;
-            _city = city;
+            Country = country;
+            City = city;
         }
 
         public Location(long id, string country, string city)
         {
-            _id = id;
-            _country = country;
-            _city = city;
+            Id = id;
+            Country = country;
+            City = city;
         }
 
         public Location(long id)
         {
-            _id = id;
+            Id = id;
         }
 
-        public long GetId() => _id;
+        public long GetId() => Id;
 
-        public void SetId(long id) => _id = id;
+        public void SetId(long id) => Id = id;
 
         public override bool Equals(object obj)
         {
             return obj is Location location &&
-                   _id == location._id;
+                   Id == location.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return City + ", " + Country;
         }
     }
 }

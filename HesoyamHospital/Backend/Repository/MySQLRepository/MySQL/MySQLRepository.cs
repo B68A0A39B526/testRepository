@@ -64,16 +64,16 @@ namespace Backend.Repository.MySQLRepository.MySQL
             => _stream.ReadAll().Where(o => criteria.IsSatisfiedBy(o));
 
         public IEnumerable<T> GetAll()
-            => _stream.ReadAll();
+            => _stream.ReadAllEager();
 
-        public IEnumerable<T> GetAllEager(string[] includeProperties)
-            => _stream.ReadAllEager(includeProperties);
+        public IEnumerable<T> GetAllEager()
+            => _stream.ReadAllEager();
 
         public T GetByID(ID id)
         {
             try
             {
-                return _stream.ReadAll()
+                return GetAll()
                     .SingleOrDefault(entity => entity.GetId().CompareTo(id) == 0);
             }
             catch (ArgumentException)
@@ -82,8 +82,8 @@ namespace Backend.Repository.MySQLRepository.MySQL
             }
         }
 
-        public T GetEager(ID id, string[] includeProperties)
-            => GetAllEager(includeProperties).Where(entity => entity.GetId().CompareTo(id) == 0).FirstOrDefault();
+        public T GetEager(ID id)
+            => GetAllEager().Where(entity => entity.GetId().CompareTo(id) == 0).FirstOrDefault();
 
         public void Update(T entity)
         {

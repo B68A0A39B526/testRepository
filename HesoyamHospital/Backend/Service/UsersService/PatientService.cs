@@ -18,8 +18,8 @@ namespace Backend.Service.UsersService
 {
     public class PatientService : IService<Patient, long>
     {
-        PatientRepository _patientRepository;
-        MedicalRecordRepository _medicalRecordRepository;
+        readonly PatientRepository _patientRepository;
+        readonly MedicalRecordRepository _medicalRecordRepository;
         UserValidation _userValidation;
 
         public PatientService(PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)

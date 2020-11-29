@@ -3,31 +3,20 @@
 // Created: 21. maj 2020 15:43:46
 // Purpose: Definition of Class Prescription
 
-using Backend.Model.PatientModel;
-using System;
 using Backend.Repository.Abstract;
 using System.Collections.Generic;
 using Backend.Model.UserModel;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using Backend.Util;
 
 namespace Backend.Model.PatientModel
 {
-    public class Prescription : IIdentifiable<long>
+    public class Prescription : Document, IIdentifiable<long>
     {
-        private long _id;
-        public long Id { get => _id; set => _id = value; }
-
-        private PrescriptionStatus _status;
-        public PrescriptionStatus Status { get => _status; set => _status = value; }
-
-        private Doctor _doctor;
-        public Doctor Doctor { get => _doctor; set { _doctor = value; _doctorID = value.Id; } }
-
-        private long _doctorID;
-        public long DoctorID { get => _doctorID; set => _doctorID = value; }
+        public PrescriptionStatus Status { get; set; }
 
         private List<MedicalTherapy> _medicalTherapies;
-        public List<MedicalTherapy> MedicalTherapies
+        public virtual List<MedicalTherapy> MedicalTherapies
         {
             get
             {
@@ -48,74 +37,104 @@ namespace Backend.Model.PatientModel
 
         public Prescription(long id)
         {
-            _id = id;
+            Id = id;
         }
         public Prescription(long id, PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies)
         {
-            _id = id;
-            _status = status;
-            _doctor = doctor;
-            _medicalTherapies = medicalTherapies;
-            _doctorID = doctor.Id;
+            Id = id;
+            Status = status;
+            Doctor = doctor;
+            MedicalTherapies = medicalTherapies;
         }
 
         public Prescription(PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies)
         {
-            _status = status;
-            _doctor = doctor;
-            _medicalTherapies = medicalTherapies;
-            _doctorID = doctor.Id;
+            Status = status;
+            Doctor = doctor;
+            MedicalTherapies = medicalTherapies;
         }
 
         public Prescription(List<MedicalTherapy> medicalTherapies)
         {
-            _status = PrescriptionStatus.ACTIVE;
-            _medicalTherapies = medicalTherapies;
+            Status = PrescriptionStatus.ACTIVE;
+            MedicalTherapies = medicalTherapies;
         }
 
-
+        public Prescription(PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies, Diagnosis diagnosis, Patient patient)
+        {
+            Status = status;
+            Doctor = doctor;
+            MedicalTherapies = medicalTherapies;
+            Diagnosis = diagnosis;
+            Patient = patient;
+        }
 
         public void AddMedicine(MedicalTherapy mt)
       {
          if (mt == null)
             return;
-         if (this._medicalTherapies == null)
-            this._medicalTherapies = new List<MedicalTherapy>();
-         if (!this._medicalTherapies.Contains(mt))
-            this._medicalTherapies.Add(mt);
+         if (this.MedicalTherapies == null)
+            this.MedicalTherapies = new List<MedicalTherapy>();
+         if (!this.MedicalTherapies.Contains(mt))
+            this.MedicalTherapies.Add(mt);
       }
       
       public void RemoveMedicine(MedicalTherapy mt)
       {
          if (mt == null)
             return;
-         if (this._medicalTherapies != null)
-            if (this._medicalTherapies.Contains(mt))
-               this._medicalTherapies.Remove(mt);
+         if (this.MedicalTherapies != null && this.MedicalTherapies.Contains(mt))
+            this.MedicalTherapies.Remove(mt);
       }
       
       public void RemoveAllMedicine()
       {
-         if (_medicalTherapies != null)
-            _medicalTherapies.Clear();
+         if (MedicalTherapies != null)
+            MedicalTherapies.Clear();
       }
 
         public long GetId()
-            => _id;
+            => Id;
 
         public void SetId(long id)
-            => _id = id;
+            => Id = id;
 
         public override bool Equals(object obj)
         {
             var prescription = obj as Prescription;
             return prescription != null &&
-                   _id == prescription._id;
+                   Id == prescription.Id;
         }
 
         public override int GetHashCode()
         {
-            return 1969571243 + _id.GetHashCode();
+            return 1969571243 + Id.GetHashCode();
+        }
+
+        public override bool meetsCriteria(DocumentSearchCriteria criteria)
+        {
+            if (!base.meetsCriteria(criteria)) return false;
+            foreach (MedicalTherapy therapy in MedicalTherapies)
+                if (!therapy.containsMedicineWithName(criteria.MedicineName)) return false;
+            return true;
+        }
+        public string StatusToString(PrescriptionStatus s) {
+            if (s == PrescriptionStatus.EXPIRED)
+            {
+                return "expired";
+            }
+            else if (s == PrescriptionStatus.ACTIVE)
+            {
+                return "active";
+            }
+            else if (s == PrescriptionStatus.USED)
+            {
+                return "used";
+            }
+            else {
+                return "deactivated";
+            }
+            
         }
     }
 }

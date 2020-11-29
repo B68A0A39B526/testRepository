@@ -12,7 +12,7 @@ namespace Backend.Repository.MySQLRepository.MySQL.Stream
 
         IEnumerable<T> ReadAll();
 
-        IEnumerable<T> ReadAllEager(string[] includeProperties);
+        IEnumerable<T> ReadAllEager();
 
         void Append(T entity);
 

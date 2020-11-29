@@ -52,15 +52,5 @@ namespace Backend.Repository.MySQLRepository.HospitalManagementRepository
             throw new NotImplementedException();
         }
 
-        public Stats GetEager(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Stats> GetAllEager()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
