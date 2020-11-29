@@ -1,29 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS integration-build
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
-WORKDIR /app/IntegrationAdapter
+WORKDIR /app
 
-COPY ./IntegrationAdapter/IntegrationAdapter.csproj .
+COPY ./IntegrationAdapterTests/bin/Release/netcoreapp3.1/ .
+COPY ./IntegrationAdapterTests .
 
-WORKDIR /app/IntegrationAdapterTests
-
-COPY ./IntegrationAdapterTests/IntegrationAdapterTests.csproj .
-
-WORKDIR /app/Backend
-
-COPY ./Backend/Backend.csproj .
-
-WORKDIR /app/IntegrationAdapterTests
-
-RUN dotnet restore IntegrationAdapterTests.csproj
-
-WORKDIR /app/IntegrationAdapter
-
-COPY ./IntegrationAdapter/. .
-
-WORKDIR /app/IntegrationAdapterTests
-
-COPY ./IntegrationAdapterTests/. .
-
-WORKDIR /app/Backend
-
-COPY ./Backend/. .
+ENTRYPOINT [ "dotnet", "IntegrationAdapterTests.dll" ]
