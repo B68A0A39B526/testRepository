@@ -12,9 +12,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql/data
     expose: 
-      - "80"
+      - "5000"
     ports:
-      - "5100:80"
+      - "5100:5000"
 
   IntegrationAdapter:
     build: 
@@ -24,9 +24,9 @@ services:
     depends_on: 
       - Backend
     expose: 
-      - "80"
+      - "5000"
     ports:
-      - "5101:80"
+      - "5101:5000"
 
   WebApplication:
     build: 
@@ -36,17 +36,22 @@ services:
     depends_on:
       - Backend
     expose: 
-      - "5000"
+      - "80"
     ports:
-      - "5000"
+      - "5000:80"
 
-  WebApplicationFront:
-    build:
-      context: .
-      dockerfile: web-application-front/Dockerfile
-    image: gregvader/webapplication:latest
-    depends_on:
-      - WebApplicationTests
+  # WebApplicationFront:
+  #   build:
+  #     context: .
+  #     dockerfile: web-application-front/Dockerfile
+  #   image: gregvader/webapplicationfront:latest
+  #   depends_on:
+  #     - WebApplicationTests
+  #   expose:
+  #     - "80"
+
+  #   ports:
+  #     - "5105:80"
 
   IntegrationAdapterTests:
     build:
@@ -58,7 +63,7 @@ services:
     expose: 
       - "80"
     ports: 
-      - "5103:80"
+      - "5103:5000"
 
   WebApplicationTests:
     build:
@@ -68,7 +73,7 @@ services:
     depends_on:
       - WebApplication
     expose: 
-      - "80"
+      - "5000"
     ports: 
-      - "5104:80"
+      - "5104:5000"
 
