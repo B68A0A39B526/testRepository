@@ -24,7 +24,7 @@ namespace WebApplicationTests.Integration.Authentication
 
         [Theory]
         [MemberData(nameof(Data))]
-        public async void Registration_Tests(NewPatientDTO newPatient, HttpStatusCode expectedStatusCode)
+        public async void Registration_tests(NewPatientDTO newPatient, HttpStatusCode expectedStatusCode)
         {
             HttpClient client = _factory.CreateClient();
             StringContent bodyContent = new StringContent(JsonConvert.SerializeObject(newPatient), System.Text.Encoding.UTF8, "application/json");
@@ -38,7 +38,8 @@ namespace WebApplicationTests.Integration.Authentication
         new List<object[]>
         {
             new object[] { null, HttpStatusCode.BadRequest },
-            new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", "eminaturk", "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "033244377", "A_NEGATIVE", new List<string>(), "Serbia", "Priboj", "Alekse Santica 4"), HttpStatusCode.OK }
+            new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", new SendEmail().RandomString(10, false), "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "033244377", "A_NEGATIVE", new List<string>(), "Serbia", "Priboj", "Alekse Santica 4"), HttpStatusCode.OK },
+            new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", "milijanadj", "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "033244377", "A_NEGATIVE", new List<string>(), "Serbia", "Priboj", "Alekse Santica 4"), HttpStatusCode.BadRequest }
         };
     }
 }

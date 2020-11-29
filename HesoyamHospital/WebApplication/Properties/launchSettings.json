@@ -14,6 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "api/feedback",
       "environmentVariables": {
+        "MyDbConnectionString": "server=localhost;port=3306;database=mydb1;user=root;password=root",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
@@ -22,8 +23,7 @@
       "launchBrowser": true,
       "launchUrl": "api/feedback",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "MyDbConnectionString": "server=localhost;port=3306;userid=dbuser;password=dbuserpassword;database=mydb1"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
     }

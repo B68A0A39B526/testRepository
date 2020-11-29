@@ -16,6 +16,7 @@ interface BloodType {
 })
 export class RegistrationFormComponent implements OnInit {
   selectedFile: File = null;
+  button = true;
   selectedFileHide = true;
   statusCode = "";
   fileName = "";
@@ -49,12 +50,13 @@ export class RegistrationFormComponent implements OnInit {
 
   public patientDTO = new NewPatientDto();
 
-  constructor(private _registrationService : RegistrationService, private _http: HttpClient) {
+  constructor(private _registrationService : RegistrationService, private _http: HttpClient, private _snackBar: MatSnackBar) {
     this._name = '';
     this._surname = '';
    }
 
   ngOnInit(): void {
+    this.button = false;
   }
 
   onFileSelected(event) {
@@ -79,9 +81,21 @@ export class RegistrationFormComponent implements OnInit {
   submit() {
     const fd = new FormData();
     this.preparePatient();
+    this.button = true;
     this._registrationService.post(this.patientDTO).subscribe(
       (data) => {
-        alert("Registration done " + this.patientDTO.Name + " " + this.patientDTO.Surname);
+        let message = this.patientDTO.Name + " " + this.patientDTO.Surname + ", " + "your account is created. ";
+        let visibleMessage = "Activation email has been sent to " + this.patientDTO.Email ;
+        this.openSnackBar(message + visibleMessage, "Okay");
+        this.button = false;
+      },
+      error => {
+        if (error.status = 400){
+          let message = "This username has already been taken. ";
+          this.openSnackBar(message, "Okay");
+          this.patientDTO.Username = "";
+        }
+        this.button = false;
       });
     if(this.selectedFile != null){
       fd.append('file', this.selectedFile, this.patientDTO.Username + '.' + this.fileExtension);
@@ -113,6 +127,12 @@ export class RegistrationFormComponent implements OnInit {
     this.patientDTO.Country = '';
     this.patientDTO.City = '';
     this.patientDTO.Address = '';
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 10000,
+    });
   }
 
 }

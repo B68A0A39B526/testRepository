@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SimpleSearchComponent } from './feedback/patient/simple-search/simple-search.component';
+import { AdvancedSearchComponent } from './feedback/patient/advanced-search/advanced-search.component';
 import { PostFeedbackComponent } from './feedback/patient/post-feedback/post-feedback.component';
 import { ShowMedicalRecordComponent } from './medical-record/show-medical-record/show-medical-record.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
     path: 'registration', loadChildren: () => import('./registration/registration.module').then(mod => mod.RegistrationModule)
   },
   {path: 'documents/simple-search', component: SimpleSearchComponent},
+  {path: 'documents/advanced-search', component: AdvancedSearchComponent},
   {path:'**', component: PageNotFoundComponent}
   
 ];

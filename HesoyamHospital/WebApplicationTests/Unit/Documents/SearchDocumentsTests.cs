@@ -13,68 +13,68 @@ namespace WebApplicationTests.Unit.Documents
 {
     public class SearchDocumentsTests
     {
-        [Fact]
-        public void Search_only_reports_with_results()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Search_documents_with_results(bool shouldSearchPrescriptions, bool shouldSearchReports)
         {
             DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(true, false, new TimeInterval(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1)), "pera", "naziv1", "brufen", "nalaz");
+            DocumentSearchCriteria criteria = new DocumentSearchCriteria(shouldSearchPrescriptions, shouldSearchReports, new TimeInterval(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1)), "pera", "naziv1", "brufen", "nalaz");
 
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
+            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria, 500);
 
             ((List<Document>)documents).Count.ShouldBeGreaterThan(0);
         }
 
-        [Fact]
-        public void Search_only_prescriptions_with_results()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Advance_search_documents_with_results(bool shouldSearchPrescriptions, bool shouldSearchReports)
         {
             DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(false, true, new TimeInterval(DateTime.Now.AddDays(-10), DateTime.Now), "pera", "naziv1", "brufen", "nalaz");
+            List<FilterType> filterTypes = new List<FilterType>();
+            filterTypes.Add(FilterType.DOCTORS_NAME);
+            filterTypes.Add(FilterType.TIME_INTERVAL);
+            List<LogicalOperator> logicalOperators = new List<LogicalOperator>();
+            logicalOperators.Add(LogicalOperator.AND);
+            List<TextFilter> textFilters = new List<TextFilter>();
+            textFilters.Add(new TextFilter("pera", TextmatchFilter.CONTAINS));
+            List<TimeIntervalFilter> timeIntervalFilters = new List<TimeIntervalFilter>();
+            timeIntervalFilters.Add(new TimeIntervalFilter(new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now), IntervalMatchFilter.CONTAINS));
+            AdvancedDocumentSearchCriteria criteria = new AdvancedDocumentSearchCriteria(shouldSearchPrescriptions, shouldSearchReports, filterTypes, logicalOperators, textFilters, timeIntervalFilters);
 
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
+            IEnumerable<Document> documents = service.AdvanceSearchDocs(criteria, 500);
 
             ((List<Document>)documents).Count.ShouldBeGreaterThan(0);
         }
 
-        [Fact]
-        public void Search_both_prescriptions_and_reports_with_results()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Search_documents_without_results(bool shouldSearchPrescriptions, bool shouldSearchReports)
         {
             DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(true, true, new TimeInterval(DateTime.Now.AddDays(-10), DateTime.Now), "pera", "naziv1", "brufen", "nalaz");
+            DocumentSearchCriteria criteria = new DocumentSearchCriteria(shouldSearchPrescriptions, shouldSearchReports, new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now.AddDays(-16)), "pera", "naziv1", "brufen", "nalaz");
 
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
-
-            ((List<Document>)documents).Count.ShouldBeGreaterThan(0);
-        }
-
-        [Fact]
-        public void Search_only_reports_without_results()
-        {
-            DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(true, false, new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now.AddDays(-16)), "pera", "naziv1", "brufen", "nalaz");
-
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
+            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria, 500);
 
             ((List<Document>)documents).Count.ShouldBeEquivalentTo(0);
         }
 
-        [Fact]
-        public void Search_only_prescriptions_without_results()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Advance_search_documents_without_results(bool shouldSearchPrescriptions, bool shouldSearchReports)
         {
             DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(false, true, new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now.AddDays(-16)), "pera", "naziv1", "brufen", "nalaz");
+            List<FilterType> filterTypes = new List<FilterType>();
+            filterTypes.Add(FilterType.DOCTORS_NAME);
+            filterTypes.Add(FilterType.TIME_INTERVAL);
+            List<LogicalOperator> logicalOperators = new List<LogicalOperator>();
+            logicalOperators.Add(LogicalOperator.AND);
+            List<TextFilter> textFilters = new List<TextFilter>();
+            textFilters.Add(new TextFilter("tamara", TextmatchFilter.CONTAINS));
+            List<TimeIntervalFilter> timeIntervalFilters = new List<TimeIntervalFilter>();
+            timeIntervalFilters.Add(new TimeIntervalFilter(new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now), IntervalMatchFilter.CONTAINS));
+            AdvancedDocumentSearchCriteria criteria = new AdvancedDocumentSearchCriteria(shouldSearchPrescriptions, shouldSearchReports, filterTypes, logicalOperators, textFilters, timeIntervalFilters);
 
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
-
-            ((List<Document>)documents).Count.ShouldBeEquivalentTo(0);
-        }
-
-        [Fact]
-        public void Search_both_prescriptions_and_reports_without_results()
-        {
-            DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
-            DocumentSearchCriteria criteria = new DocumentSearchCriteria(true, true, new TimeInterval(DateTime.Now.AddDays(-20), DateTime.Now.AddDays(-16)), "pera", "naziv1", "brufen", "nalaz");
-
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
+            IEnumerable<Document> documents = service.AdvanceSearchDocs(criteria, 500);
 
             ((List<Document>)documents).Count.ShouldBeEquivalentTo(0);
         }
@@ -85,7 +85,7 @@ namespace WebApplicationTests.Unit.Documents
             DocumentService service = new DocumentService(CreateStubPrescriptionRepository(), CreateStubReportRepository());
             DocumentSearchCriteria criteria = new DocumentSearchCriteria(false, false, new TimeInterval(DateTime.Now.AddDays(-10), DateTime.Now), "pera", "naziv1", "brufen", "nalaz");
 
-            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria);
+            IEnumerable<Document> documents = service.SimpleSearchDocs(criteria, 500);
 
             ((List<Document>)documents).Count.ShouldBeEquivalentTo(0);
         }
@@ -118,7 +118,7 @@ namespace WebApplicationTests.Unit.Documents
             prescriptions.Add(p1);
             prescriptions.Add(p2);
 
-            stubRepository.Setup(r => r.GetAll()).Returns(prescriptions);
+            stubRepository.Setup(r => r.GetAllByPatient(500)).Returns(prescriptions);
 
             return stubRepository.Object;
         }
@@ -147,9 +147,17 @@ namespace WebApplicationTests.Unit.Documents
             reports.Add(r1);
             reports.Add(r2);
 
-            stubRepository.Setup(r => r.GetAll()).Returns(reports);
+            stubRepository.Setup(r => r.GetAllByPatient(500)).Returns(reports);
 
             return stubRepository.Object;
         }
+
+        public static IEnumerable<object[]> Data =>
+        new List<object[]>
+        {
+            new object[] { true, false },
+            new object[] { false, true },
+            new object[] { true, true }
+        };
     }
 }

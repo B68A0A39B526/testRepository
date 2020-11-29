@@ -9,5 +9,6 @@ namespace Backend.Repository.Abstract.MedicalAbstractRepository
 {
     public interface IPrescriptionRepository : IRepository<Prescription, long>
     {
+        IEnumerable<Prescription> GetAllByPatient(long patientId);
     }
 }

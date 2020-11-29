@@ -12,10 +12,6 @@ table {
     margin: 8px 8px 8px 0;
 }
 
-div {
-  height: 30px;
-}
-
 .mat-header-cell {
   background-color: rgb(66, 65, 68);
   font-size: larger;

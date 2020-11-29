@@ -1,0 +1,278 @@
+<div style="display: flex; justify-content: center;">
+    <mat-card class="mat-elevation-z8" style="width: 80%; padding-top: 30px;">
+        <form [formGroup]="searchForm" novalidate (ngSubmit)="submit()">
+            
+                <div style="display: flex; justify-content: center;">
+                    Type of documents: 
+                    <mat-checkbox (change)="searchType = 0; reset()" formControlName="shouldSearchReports" class="example-margin">Reports</mat-checkbox>
+                    <mat-checkbox (change)="searchType = 0; reset()" formControlName="shouldSearchPrescriptions" class="example-margin">Prescriptions</mat-checkbox>
+                </div>
+
+                  <ng-container>
+                    <div style="justify-content: left; margin-left: 13%; margin-top: 30px;">
+                      <mat-form-field appearance="fill">
+                          <mat-label>Search by criterion</mat-label>
+                          <mat-select formControlName="searchType">
+                            <mat-option value="0">Time interval</mat-option>
+                            <mat-option value="1">Doctor name</mat-option>
+                            <mat-option value="2">Diagnosis name</mat-option>
+                            <mat-option value="3" *ngIf="shouldSearchPrescriptions">Medicine name</mat-option>
+                            <mat-option value="4" *ngIf="shouldSearchReports">Comment</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+          
+                          <mat-form-field appearance="fill" color="primary" *ngIf="searchType == 0" style="margin-left: 10px; width:230px;">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                              <input formControlName="startDate" matStartDate placeholder="Start date">
+                              <input formControlName="endDate" matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                          </mat-form-field>  
+                          <mat-form-field appearance="fill"  *ngIf="searchType == 0" style="margin-left: 10px;">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="intervalMatchFilter">
+                                <mat-option value="0">Contains</mat-option>
+                                <mat-option value="1">Does not contain</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" style="margin-left: 10px; width:230px;" *ngIf="searchType == 1" >
+                            <mat-label>Doctor name</mat-label>
+                            <input formControlName="doctorName" matInput type="text">
+                            <button mat-button *ngIf="doctorName" matSuffix mat-icon-button aria-label="Clear" (click)="doctorName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="searchType == 1">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="textMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" style="margin-left: 10px; width:230px;" *ngIf="searchType == 2" >
+                            <mat-label>Diagnosis name</mat-label>
+                            <input formControlName="diagnosisName" matInput type="text">
+                            <button mat-button *ngIf="diagnosisName" matSuffix mat-icon-button aria-label="Clear" (click)="diagnosisName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="searchType == 2">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="textMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" *ngIf="searchType == 3" style="margin-left: 10px; width:230px;">
+                            <mat-label>Medicine name (prescriptions only)</mat-label>
+                            <input formControlName="medicineName" matInput type="text">
+                            <button mat-button *ngIf="medicineName" matSuffix mat-icon-button aria-label="Clear" (click)="medicineName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="searchType == 3">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="textMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field  class="example-form-field" *ngIf="searchType == 4" style="margin-left: 10px; width:230px;">
+                            <mat-label>Doctor's comment (reports only)</mat-label>
+                            <input formControlName="comment" matInput type="text">
+                            <button mat-button *ngIf="comment" matSuffix mat-icon-button aria-label="Clear" (click)="comment=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="searchType == 4">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="textMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+
+                            <mat-form-field appearance="fill"  *ngIf="!(additionalCriteriaCount == 0)" style="margin-left: 10px;">
+                              <mat-label>Logical operator</mat-label>
+                              <mat-select formControlName="logicalOperator">
+                                <mat-option value="0">AND</mat-option>
+                                <mat-option value="1">OR</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+          
+          
+                            <button type="button" mat-mini-fab color="primary" style="margin-left: 10px; vertical-align: top;" (click)="addOne()" *ngIf="additionalCriteriaCount == 0">
+                              <mat-icon>plus_one</mat-icon>
+                            </button>
+                    </div>
+                  </ng-container>
+
+            
+            <div *ngFor="let element of additionalCriteria.controls; index as i;">
+              <ng-container [formGroup] = "element">
+            
+                    <div style="justify-content: left; margin-left: 13%;">
+                      <mat-form-field appearance="fill">
+                          <mat-label>Search by criterion</mat-label>
+                          <mat-select formControlName="SearchType">
+                            <mat-option value="0">Time interval</mat-option>
+                            <mat-option value="1">Doctor name</mat-option>
+                            <mat-option value="2">Diagnosis name</mat-option>
+                            <mat-option value="3" *ngIf="shouldSearchPrescriptions">Medicine name</mat-option>
+                            <mat-option value="4" *ngIf="shouldSearchReports">Comment</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+          
+                          <mat-form-field appearance="fill" color="primary" *ngIf="element.controls['SearchType'].value == 0" style="margin-left: 10px; width:230px;">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                              <input formControlName="StartDate" matStartDate placeholder="Start date">
+                              <input formControlName="EndDate" matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                          </mat-form-field>  
+                          <mat-form-field appearance="fill"  *ngIf="element.controls['SearchType'].value == 0" style="margin-left: 10px;">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="IntervalMatchFilter">
+                                <mat-option value="0">Contains</mat-option>
+                                <mat-option value="1">Does not contain</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" style="margin-left: 10px; width:230px;" *ngIf="element.controls['SearchType'].value == 1" >
+                            <mat-label>Doctor name</mat-label>
+                            <input formControlName="DoctorName" matInput type="text">
+                            <button mat-button *ngIf="DoctorName" matSuffix mat-icon-button aria-label="Clear" (click)="DoctorName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="element.controls['SearchType'].value == 1">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="TextMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" style="margin-left: 10px; width:230px;" *ngIf="element.controls['SearchType'].value == 2" >
+                            <mat-label>Diagnosis name</mat-label>
+                            <input formControlName="DiagnosisName" matInput type="text">
+                            <button mat-button *ngIf="diagnosisName" matSuffix mat-icon-button aria-label="Clear" (click)="DiagnosisName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="element.controls['SearchType'].value == 2">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="TextMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field class="example-form-field" *ngIf="element.controls['SearchType'].value == 3" style="margin-left: 10px; width:230px;">
+                            <mat-label>Medicine name (prescriptions only)</mat-label>
+                            <input formControlName="MedicineName" matInput type="text">
+                            <button mat-button *ngIf="MedicineName" matSuffix mat-icon-button aria-label="Clear" (click)="MedicineName=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;" *ngIf="element.controls['SearchType'].value == 3">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="TextMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+          
+                          <mat-form-field  class="example-form-field" *ngIf="element.controls['SearchType'].value == 4" style="margin-left: 10px; width:230px;">
+                            <mat-label>Doctor's comment (reports only)</mat-label>
+                            <input formControlName="Comment" matInput type="text">
+                            <button mat-button *ngIf="Comment" matSuffix mat-icon-button aria-label="Clear" (click)="Comment=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" style="margin-left: 10px;"  *ngIf="element.controls['SearchType'].value == 4">
+                              <mat-label>Match filter</mat-label>
+                              <mat-select formControlName="TextMatchFilter">
+                                <mat-option value="0">Equals</mat-option>
+                                <mat-option value="1">Contains</mat-option>
+                                <mat-option value="2">Does not contain</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+            
+                            <mat-form-field appearance="fill"  *ngIf="!(additionalCriteriaCount -1 == i)" style="margin-left: 10px;">
+                              <mat-label>Logical operator</mat-label>
+                              <mat-select formControlName="LogicalOperator">
+                                <mat-option value="0">AND</mat-option>
+                                <mat-option value="1">OR</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+
+                          <button type="button" mat-mini-fab color="primary" *ngIf="additionalCriteriaCount -1 == i" style="margin-left: 10px; vertical-align: top;" (click)="addOne()">
+                            <mat-icon>plus_one</mat-icon>
+                          </button>
+
+                          <button type="button" mat-mini-fab color="accent" style="margin-left: 10px; vertical-align: top;" (click)="removeOne(i)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+              </div>
+              </ng-container>
+            </div>
+
+
+
+            <div style="text-align: center; margin-top: 20px;">
+              <button mat-raised-button color="primary" type="submit" style="padding: 12px 32px">Search</button>
+            </div>
+        </form>
+      </mat-card>
+</div>
+
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+    <table mat-table [dataSource] = "data" class="mat-elevation-z8">
+          <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef> DOCUMENT TYPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="DateCreated">
+            <th mat-header-cell *matHeaderCellDef> DATE CREATED </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateCreated | date : longDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="DoctorName">
+            <th mat-header-cell *matHeaderCellDef> DOCTOR NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.doctorName}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="DiagnosisName">
+            <th mat-header-cell *matHeaderCellDef> DIAGNOSIS NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.diagnosisName}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="Observe">
+            <th mat-header-cell *matHeaderCellDef> OBSERVE </th>
+            <td mat-cell *matCellDef="let element"> 
+              <button mat-stroked-button color="primary">Preview</button>                                      
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

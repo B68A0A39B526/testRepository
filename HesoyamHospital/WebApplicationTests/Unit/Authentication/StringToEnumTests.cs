@@ -13,7 +13,7 @@ namespace WebApplicationTests.Unit.Authentication
     {
         [Theory]
         [MemberData(nameof(GenderData))]
-        public void Gender_test(string gender, Sex value)
+        public void String_to_gender(string gender, Sex value)
         {
             Sex sex = NewPatientMapper.GenderToEnum(gender);
 
@@ -22,7 +22,7 @@ namespace WebApplicationTests.Unit.Authentication
 
         [Theory]
         [MemberData(nameof(BloodTypeData))]
-        public void BloodType_test(string blood, BloodType value)
+        public void String_to_blood_type(string blood, BloodType value)
         {
             BloodType bloodType = NewPatientMapper.BloodTypeToEnum(blood);
 

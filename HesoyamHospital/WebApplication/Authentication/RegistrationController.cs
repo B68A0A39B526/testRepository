@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Backend;
+using Backend.Model.PatientModel;
 using Backend.Model.UserModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication.Authentication
@@ -15,11 +11,22 @@ namespace WebApplication.Authentication
     [ApiController]
     public class RegistrationController : ControllerBase
     {
+        private readonly ISendEmail _sendEmailService;
+
+        public RegistrationController(ISendEmail sendEmalService)
+        {
+            _sendEmailService = sendEmalService;
+        }
+
         [HttpPost]   //POST /api/registration
         public IActionResult Add(NewPatientDTO dto)
         {
             if (dto == null || !RegistrationValidation.IsPatientValid(dto)) return BadRequest();
-            AppResources.getInstance().medicalRecordService.Create(NewPatientMapper.NewPatientDTOToMedicalRecord(dto));
+            MedicalRecord medicalRecord = AppResources.getInstance().medicalRecordService.Create(NewPatientMapper.NewPatientDTOToMedicalRecord(dto));
+            if (medicalRecord != null)
+            {
+                _sendEmailService.SendActivationEmail(medicalRecord.Patient.Id, medicalRecord.Patient.Email1);
+            }
             return Ok();
         }
 
@@ -41,6 +48,15 @@ namespace WebApplication.Authentication
             {
                 return StatusCode(500, $"internal server error: {ex}");
             }
+        }
+
+        [HttpPost("activate/{token}")]   //POST /api/registration/activate/token123
+        public IActionResult Activate(string token)
+        {
+            long id = _sendEmailService.TokenToId(token);
+            Patient patient = AppResources.getInstance().patientService.Activate(id);
+            if (patient == null) return BadRequest();
+            return Ok();
         }
 
     }

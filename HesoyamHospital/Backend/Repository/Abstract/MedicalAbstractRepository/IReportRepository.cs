@@ -8,5 +8,6 @@ namespace Backend.Repository.Abstract.MedicalAbstractRepository
 {
     public interface IReportRepository : IRepository<Report, long>
     {
+        IEnumerable<Report> GetAllByPatient(long patientId);
     }
 }

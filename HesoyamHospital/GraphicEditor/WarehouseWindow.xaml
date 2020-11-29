@@ -30,54 +30,8 @@
 
         <Label x:Name="caption" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Content="WAREHOUSE" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,20,10,10" Width="250" FontSize="30" FontWeight="Bold" Height="50"/>
 
-        <Canvas Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Width ="800" Height="400">
-            <Rectangle Fill="#FFEEE1ED" HorizontalAlignment="Left" Height="280" VerticalAlignment="Top" Width="760" Canvas.Left="21" Canvas.Top="75" Stroke="Black"/>
-            <Rectangle Fill="#FFFDFDC9" Height="277" Canvas.Left="272" Canvas.Top="76" Width="507" Stroke="Black"/>
-            <Rectangle Fill="#FFFDFDC9" Height="277" Canvas.Left="24" Canvas.Top="76" Width="246" Stroke="Black"/>
-            <Rectangle Fill="#FFC91010" Height="6" Canvas.Left="245" RadiusY="3.197" RadiusX="3.197" Stroke="Black" Canvas.Top="206" Width="54" RenderTransformOrigin="0.5,0.5">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="-1"/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <Rectangle Fill="#FFC91010" Height="6" Canvas.Left="375" RadiusY="3.197" RadiusX="3.197" Stroke="Black" Canvas.Top="74" Width="54" RenderTransformOrigin="0.5,0.5"/>
-            <Label x:Name="labelMedicineStorage" Content="medicine &#xD;&#xA;storage" Canvas.Left="80" Canvas.Top="177" Height="44" MouseDoubleClick="MedicineStorage_MouseDoubleClick">
-                <Label.ToolTip>
-                    <ToolTip>
-                        <StackPanel Width="200">
-                            <StackPanel Orientation="Horizontal" Background="Tan" Width="200">
-                                <Image Source="icons/medicine-storage.png" Width="50" Height="50" ></Image>
-                                <Label Content="Medicine Storage" FontWeight="DemiBold" Foreground="Beige"  FontSize="14" ></Label>
-                            </StackPanel>
-                            <TextBlock Text="
-                                            "  FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
-                            <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
-                            <TextBlock Text="Click on room for more details"  FontWeight="Bold"></TextBlock>
-                        </StackPanel>
-
-                    </ToolTip>
-                </Label.ToolTip>
-            </Label>
-            <Label x:Name="labelEquipmentStorage" Content="equipment&#xD;&#xA;storage" Canvas.Left="358" Canvas.Top="177" Height="44" MouseDoubleClick="EquipmentStorage_MouseDoubleClick">
-                <Label.ToolTip>
-                    <ToolTip>
-                        <StackPanel Width="200">
-                            <StackPanel Orientation="Horizontal" Background="Tan" Width="200">
-                                <Image Source="icons/medicine-storage.png" Width="50" Height="50" ></Image>
-                                <Label Content="Equipment Room" FontWeight="DemiBold" Foreground="Beige"  FontSize="14" ></Label>
-                            </StackPanel>
-                            <TextBlock Text="
-                                            "  FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
-                            <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
-                            <TextBlock Text="Click on room for more details"  FontWeight="Bold"></TextBlock>
-                        </StackPanel>
-                    </ToolTip>
-                </Label.ToolTip>
-            </Label>
+        <Canvas x:Name="canvas1" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Width ="800" Height="400">
+    
         </Canvas>
 
         <!--#region new-purpose-for-object-->
@@ -85,9 +39,9 @@
 
         <TextBox x:Name="txtNewPurpose" Grid.Row="4" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Margin="198,0,15.667,4" Width="320" Height="30" FontSize="16" Visibility="Hidden"/>
 
-        <Button x:Name="buttonConfrim" Content="Accept the change" Grid.Row="6" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="59,6,0,7" Width="250" Height="40" FontSize="18" VerticalAlignment="Center" Click="ButtonConfrim_Click" Visibility="Hidden"/>
+        <Button x:Name="buttonConfrim" Content="Accept the change" Grid.Row="6" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="59,6,0,7" Width="250" Height="40" FontSize="18" VerticalAlignment="Center"  Visibility="Hidden"/>
 
-        <Button x:Name="buttonCancel" Content="Cancel" Grid.Row="6" Grid.Column="3" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="0,38,16.667,40" Width="250" Height="40" FontSize="18" VerticalAlignment="Center" Click="ButtonCancel_Click" Visibility="Hidden"/>
+        <Button x:Name="buttonCancel" Content="Cancel" Grid.Row="6" Grid.Column="3" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="0,38,16.667,40" Width="250" Height="40" FontSize="18" VerticalAlignment="Center" Visibility="Hidden"/>
         <!--#endregion-->
     </Grid>
 </Window>

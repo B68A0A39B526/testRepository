@@ -52,6 +52,15 @@ namespace Backend.Service.UsersService
 
         }
 
+        public Patient Activate(long id)
+        {
+            Patient patient = _patientRepository.GetEager(id);
+            if (patient == null) return null;
+            patient.Active = true;
+            _patientRepository.Update(patient);
+            return patient;
+        }
+
         public void Delete(Patient entity)
             => _patientRepository.Delete(entity);
 

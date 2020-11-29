@@ -13,6 +13,6 @@ export class RegistrationService {
   constructor(private _http: HttpClient) { }
 
   post(patient : NewPatientDto) {
-    return this._http.post<any>(this._urlpost, patient);
+    return this._http.post(this._urlpost, patient, {observe: 'response'});
   }
 }

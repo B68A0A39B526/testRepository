@@ -1,8 +1,5 @@
-﻿using Backend.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Backend.Model.PatientModel;
+using Backend.Util;
 
 namespace WebApplication.Documents
 {
@@ -18,5 +15,13 @@ namespace WebApplication.Documents
             criteria.TimeInterval.IsFullyDefined() &&
             criteria.TimeInterval.IsInOrder() &&
             criteria.TimeInterval.IsInThePast();
+
+        public bool isAdvancedSearchCriteriaValid(AdvancedDocumentSearchCriteria criteria)
+            => criteria != null &&
+            criteria.LogicalOperators != null &&
+            criteria.TextFilters != null &&
+            criteria.TimeIntervalFilters != null &&
+            criteria.FilterTypes != null &&
+            criteria.isConsistent();
     }
 }

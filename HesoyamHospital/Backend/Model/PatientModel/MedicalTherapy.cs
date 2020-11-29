@@ -34,5 +34,12 @@ namespace Backend.Model.PatientModel
 
         public bool containsMedicineWithName(string name)
             => Medicine.Name.ToLower().Contains(name.ToLower());
+
+        public bool meetsMedicineNameCriteria(TextFilter filter)
+        {
+            if (filter.Filter == TextmatchFilter.EQUAL && Medicine.Name.ToLower().Equals(filter.Text.ToLower())) return true;
+            if (filter.Filter == TextmatchFilter.CONTAINS && Medicine.Name.ToLower().Contains(filter.Text.ToLower())) return true;
+            return false;
+        }
     }
 }

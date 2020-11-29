@@ -12,6 +12,7 @@ namespace Backend.Model.PatientModel
         {
             Id = id;
             DateCreated = DateTime.Now;
+            Type = DocumentType.REPORT;
         }
 
         public Report (long id, Patient patient, Doctor doctor, string comment, Diagnosis diagnosis)
@@ -21,6 +22,7 @@ namespace Backend.Model.PatientModel
             Doctor = doctor;
             Comment = comment;
             Diagnosis = diagnosis;
+            Type = DocumentType.REPORT;
         }
 
         public long GetId() => Id;
@@ -44,6 +46,21 @@ namespace Backend.Model.PatientModel
             if (!base.meetsCriteria(criteria)) return false;
             if (!Comment.ToLower().Contains(criteria.Comment.ToLower())) return false;
             return true;
+        }
+
+        public override bool meetsAdvancedTextCriteria(FilterType filterType, TextFilter textFilter)
+        {
+            if (filterType == FilterType.COMMENT && meetsCommentCriteria(textFilter)) return true;
+            if ((filterType == FilterType.DOCTORS_NAME || filterType == FilterType.DIAGNOSIS_NAME) && base.meetsAdvancedTextCriteria(filterType, textFilter)) return true;
+            return false;
+        }
+
+        private bool meetsCommentCriteria(TextFilter filter)
+        {
+            if (filter.Filter == TextmatchFilter.EQUAL && Comment.ToLower().Equals(filter.Text.ToLower())) return true;
+            if (filter.Filter == TextmatchFilter.CONTAINS && Comment.ToLower().Contains(filter.Text.ToLower())) return true;
+            if (filter.Filter == TextmatchFilter.DOES_NOT_CONTAIN && !Comment.ToLower().Contains(filter.Text.ToLower())) return true;
+            return false;
         }
     }
 }

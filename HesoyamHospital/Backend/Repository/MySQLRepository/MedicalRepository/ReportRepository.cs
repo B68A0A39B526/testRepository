@@ -15,5 +15,8 @@ namespace Backend.Repository.MySQLRepository.MedicalRepository
         public ReportRepository(IMySQLStream<Report> stream, ISequencer<long> sequencer) : base(ENTITY_NAME, stream, sequencer, new LongIdGeneratorStrategy<Report>())
         {
         }
+
+        public IEnumerable<Report> GetAllByPatient(long patientId)
+            => (GetAll().Where(report => report.Patient.Id == patientId)).ToList();
     }
 }

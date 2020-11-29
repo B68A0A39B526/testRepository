@@ -38,6 +38,7 @@ namespace Backend.Model.PatientModel
         public Prescription(long id)
         {
             Id = id;
+            Type = DocumentType.PRESCRIPTION;
         }
         public Prescription(long id, PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies)
         {
@@ -45,6 +46,7 @@ namespace Backend.Model.PatientModel
             Status = status;
             Doctor = doctor;
             MedicalTherapies = medicalTherapies;
+            Type = DocumentType.PRESCRIPTION;
         }
 
         public Prescription(PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies)
@@ -52,12 +54,14 @@ namespace Backend.Model.PatientModel
             Status = status;
             Doctor = doctor;
             MedicalTherapies = medicalTherapies;
+            Type = DocumentType.PRESCRIPTION;
         }
 
         public Prescription(List<MedicalTherapy> medicalTherapies)
         {
             Status = PrescriptionStatus.ACTIVE;
             MedicalTherapies = medicalTherapies;
+            Type = DocumentType.PRESCRIPTION;
         }
 
         public Prescription(PrescriptionStatus status, Doctor doctor, List<MedicalTherapy> medicalTherapies, Diagnosis diagnosis, Patient patient)
@@ -67,6 +71,7 @@ namespace Backend.Model.PatientModel
             MedicalTherapies = medicalTherapies;
             Diagnosis = diagnosis;
             Patient = patient;
+            Type = DocumentType.PRESCRIPTION;
         }
 
         public void AddMedicine(MedicalTherapy mt)
@@ -114,10 +119,27 @@ namespace Backend.Model.PatientModel
         public override bool meetsCriteria(DocumentSearchCriteria criteria)
         {
             if (!base.meetsCriteria(criteria)) return false;
+            if (MedicalTherapies.Count == 0 && !criteria.MedicineName.Equals("")) return false;
             foreach (MedicalTherapy therapy in MedicalTherapies)
                 if (!therapy.containsMedicineWithName(criteria.MedicineName)) return false;
             return true;
         }
+
+        public override bool meetsAdvancedTextCriteria(FilterType filterType, TextFilter textFilter)
+        {
+            if (filterType == FilterType.MEDICINE_NAME && (textFilter.Filter == TextmatchFilter.CONTAINS || textFilter.Filter == TextmatchFilter.EQUAL) && hasMedicineName(textFilter)) return true;
+            if (filterType == FilterType.MEDICINE_NAME && textFilter.Filter == TextmatchFilter.DOES_NOT_CONTAIN && !hasMedicineName(new TextFilter(textFilter.Text, TextmatchFilter.EQUAL))) return true;
+            if ((filterType == FilterType.DOCTORS_NAME || filterType == FilterType.DIAGNOSIS_NAME) && base.meetsAdvancedTextCriteria(filterType, textFilter)) return true;
+            return false;
+        }
+
+        private bool hasMedicineName(TextFilter filter)
+        {
+            foreach (MedicalTherapy therapy in MedicalTherapies)
+                if (therapy.meetsMedicineNameCriteria(filter)) return true;
+            return false;
+        }
+
         public string StatusToString(PrescriptionStatus s) {
             if (s == PrescriptionStatus.EXPIRED)
             {

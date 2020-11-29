@@ -38,7 +38,6 @@ namespace Backend.Repository.MySQLRepository
             if (!optionsBuilder.IsConfigured)
             {
                 string connectionString = Environment.GetEnvironmentVariable("MyDbConnectionString");
-                Console.WriteLine("Connection: " + connectionString);
                 optionsBuilder.UseLazyLoadingProxies().UseMySql(connectionString);
             }
         }

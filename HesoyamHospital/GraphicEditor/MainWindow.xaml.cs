@@ -23,6 +23,16 @@ namespace GraphicEditor
         public MainWindow()
         {
             InitializeComponent();
+
+            DrawingShapesService drawing_shapes = new DrawingShapesService();
+            GraphicRepository graphic_repository = new GraphicRepository();
+            List<GraphicalObject> list = graphic_repository.ReadFromFile("hospitalmap.txt");
+
+            foreach (GraphicalObject graphical_object in list)
+            {
+                Shape shape = drawing_shapes.draw_Shapes(graphical_object);
+                canvas1.Children.Add(shape);
+            }
         }
 
         private void Display_Hospital1(object sender, RoutedEventArgs e)

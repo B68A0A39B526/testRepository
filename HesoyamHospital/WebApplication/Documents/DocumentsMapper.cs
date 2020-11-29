@@ -1,8 +1,5 @@
 ﻿using Backend.Model.PatientModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApplication.Documents
 {
@@ -10,7 +7,7 @@ namespace WebApplication.Documents
     {
         private static DocumentDTO DocumentToDocumentDTO(Document document)
         {
-            return new DocumentDTO(document.DateCreated, document.Doctor.FullName, document.Diagnosis.DiagnosisName);
+            return new DocumentDTO(document.DateCreated, document.Doctor.FullName, document.Diagnosis.DiagnosisName, document.Type == DocumentType.REPORT ? "REPORT" : "PRESCRIPTION");
         }
 
         public static List<DocumentDTO> DocumentToDocumentDTO(List<Document> documents)

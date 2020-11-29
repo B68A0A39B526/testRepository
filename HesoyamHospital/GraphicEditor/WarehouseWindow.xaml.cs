@@ -19,69 +19,18 @@ namespace GraphicEditor
     /// </summary>
     public partial class WarehouseWindow : Window
     {
-        private int numStorage;
         public WarehouseWindow()
         {
             InitializeComponent();
-        }
+            DrawingShapesService drawing_shapes = new DrawingShapesService();
+            GraphicRepository graphic_repository = new GraphicRepository();
+            List<GraphicalObject> list = graphic_repository.ReadFromFile("warehouse.txt");
 
-        private void MedicineStorage_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            numStorage = 1;
-            VisibilityOn();
-        }
-
-        private void EquipmentStorage_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            numStorage = 2;
-            VisibilityOn();
-        }
-
-
-        private void ButtonConfrim_Click(object sender, RoutedEventArgs e)
-        {
-            switch (numStorage)
+            foreach (GraphicalObject graphical_object in list)
             {
-                case 1:
-                    labelMedicineStorage.Content = txtNewPurpose.Text;
-                    break;
-                case 2:
-                    labelEquipmentStorage.Content = txtNewPurpose.Text;
-                    break;
-                default:
-                    break;
+                Shape shape = drawing_shapes.draw_Shapes(graphical_object);
+                canvas1.Children.Add(shape);
             }
-
-            VisibilityOff();
-            ClearTxt();
         }
-
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            VisibilityOff();
-            ClearTxt();
-        }
-
-        private void VisibilityOn()
-        {
-            labelNewPurpose.Visibility = Visibility.Visible;
-            txtNewPurpose.Visibility = Visibility.Visible;
-            buttonConfrim.Visibility = Visibility.Visible;
-            buttonCancel.Visibility = Visibility.Visible;
-        }
-
-        private void VisibilityOff()
-        {
-            labelNewPurpose.Visibility = Visibility.Hidden;
-            txtNewPurpose.Visibility = Visibility.Hidden;
-            buttonConfrim.Visibility = Visibility.Hidden;
-            buttonCancel.Visibility = Visibility.Hidden;
-        }
-
-        private void ClearTxt()
-        {
-            txtNewPurpose.Text = "";
-        }
-
     }
 }

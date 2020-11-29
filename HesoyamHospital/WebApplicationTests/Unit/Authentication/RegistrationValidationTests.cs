@@ -32,7 +32,7 @@ namespace WebApplicationTests.Unit.Authentication
         [MemberData(nameof(UsernameData))]
         public void Is_username_unique(NewPatientDTO patient, bool value)
         {;
-            bool valid = RegistrationValidation.IsNewPatientValid(patient);
+            bool valid = RegistrationValidation.IsPatientValid(patient);
 
             valid.ShouldBe(value);
         }
@@ -40,7 +40,7 @@ namespace WebApplicationTests.Unit.Authentication
         public static IEnumerable<object[]> UsernameData =>
         new List<object[]>
         {
-            new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", "milijanadj", "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "", "A_NEGATIVE", null, "Serbia", "Priboj", "Alekse Santica 4"), true },
+            new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", "milijanadj", "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "", "A_NEGATIVE", null, "Serbia", "Priboj", "Alekse Santica 4"), false },
             new object[] { new NewPatientDTO("Emina", "Turkovic", "Mirsad", "FEMALE", "team.psw18@gmail.com", "milijanadjxxx", "perapera", new DateTime(1998, 11, 9), "27100785057", "0911998777025", "0605552233", "", "A_NEGATIVE", null, "Serbia", "Priboj", "Alekse Santica 4"), true },
         };
     }
