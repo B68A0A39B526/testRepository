@@ -42,6 +42,8 @@ namespace Backend.Service.MedicalService
 
             if (!CheckRoomSchedules(appointment))
                 throw new AppointmentServiceException("Appointment clashes with room appointments!");
+
+            
         }
 
         protected bool CheckDoctorSchedule(Appointment appointment)
